@@ -468,7 +468,8 @@ class ReportGenerator:
             base_dir: Base directory for assessments
         """
         self.assessment_id = assessment_id
-        self.base_dir = Path(base_dir or os.path.expanduser("~/ntree/assessments"))
+        _ntree_home = os.getenv("NTREE_HOME", os.path.expanduser("~/ntree"))
+        self.base_dir = Path(base_dir or os.path.join(_ntree_home, "assessments"))
         self.assessment_dir = self.base_dir / assessment_id
         self.reports_dir = self.assessment_dir / "reports"
         self.reports_dir.mkdir(parents=True, exist_ok=True)
@@ -1006,10 +1007,17 @@ class ReportGenerator:
 
         rows = []
         for host in hosts:
-            ip = host.get("ip", host.get("address", "Unknown"))
-            hostname = host.get("hostname", "-")
-            os_info = host.get("os", host.get("os_match", "-"))
-            ports = host.get("ports", host.get("open_ports", []))
+            # Handle both string IPs and dict host objects
+            if isinstance(host, str):
+                ip = host
+                hostname = "-"
+                os_info = "-"
+                ports = []
+            else:
+                ip = host.get("ip", host.get("address", "Unknown"))
+                hostname = host.get("hostname", "-")
+                os_info = host.get("os", host.get("os_match", "-"))
+                ports = host.get("ports", host.get("open_ports", []))
             if isinstance(ports, list):
                 ports_str = ", ".join(str(p) for p in ports[:10])
                 if len(ports) > 10:

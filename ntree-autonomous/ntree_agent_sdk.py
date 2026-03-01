@@ -727,6 +727,16 @@ Call mcp__ntree-scan__scan_network to discover hosts on the target network."""
                 # Re-generate report now that token data is available
                 if self.token_totals["total_input_tokens"] > 0 and self.assessment_id:
                     try:
+                        # Write token_usage into state.json so report generator can pick it up
+                        ntree_home = Path(os.getenv("NTREE_HOME", str(Path.home() / "ntree")))
+                        state_file = ntree_home / "assessments" / self.assessment_id / "state.json"
+                        if state_file.exists():
+                            import json as _json
+                            _state = _json.loads(state_file.read_text())
+                            _state["token_usage"] = dict(self.token_totals)
+                            state_file.write_text(_json.dumps(_state, indent=2))
+                            logger.info("Token usage written to state.json")
+
                         logger.info("Regenerating report with token usage data...")
                         import ntree_mcp.scope as _scope_mod
                         _scope_mod._current_assessment_id = self.assessment_id

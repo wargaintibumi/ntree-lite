@@ -1,0 +1,141 @@
+# ==============================================================================
+# NTREE RULES OF ENGAGEMENT - CTF / LAB ENVIRONMENT
+# ==============================================================================
+#
+# Template for CTF challenges, training labs, and isolated test environments.
+# Minimal restrictions - designed for learning and practice.
+#
+# Suitable for: HackTheBox, TryHackMe, VulnHub, home labs, training environments
+#
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# ASSESSMENT DETAILS
+# ------------------------------------------------------------------------------
+
+ASSESSMENT_NAME: CTF/Lab Practice Session
+CLIENT_NAME: Self / Training
+START_DATE: [DATE]
+END_DATE: [DATE]
+ASSESSMENT_TYPE: ctf_lab
+
+# ------------------------------------------------------------------------------
+# TESTING WINDOW
+# ------------------------------------------------------------------------------
+
+# No restrictions for lab environments
+TESTING_WINDOW: anytime
+
+# ------------------------------------------------------------------------------
+# ALLOWED ACTIVITIES - ALL ENABLED
+# ------------------------------------------------------------------------------
+
+# Network scanning and enumeration
+ALLOW_SCANNING: true
+
+# Vulnerability testing
+ALLOW_VULN_TESTING: true
+
+# Credential/password testing
+ALLOW_CREDENTIAL_TESTING: true
+
+# Exploitation attempts
+ALLOW_EXPLOITATION: true
+
+# Post-exploitation activities
+ALLOW_POST_EXPLOITATION: true
+
+# Social engineering (N/A for labs)
+ALLOW_SOCIAL_ENGINEERING: false
+
+# Physical testing (N/A for labs)
+ALLOW_PHYSICAL_TESTING: false
+
+# Denial of Service testing (safe in isolated labs)
+ALLOW_DOS_TESTING: true
+
+# ------------------------------------------------------------------------------
+# LAB-SPECIFIC PERMISSIONS
+# ------------------------------------------------------------------------------
+
+# Full exploitation allowed
+ALLOW_FULL_EXPLOITATION: true
+
+# Privilege escalation
+ALLOW_PRIVESC: true
+
+# Persistence (for practice)
+ALLOW_PERSISTENCE: true
+
+# Data access
+ALLOW_DATA_ACCESS: true
+
+# Password cracking
+ALLOW_PASSWORD_CRACKING: true
+ALLOW_HASHCAT: true
+ALLOW_JOHN: true
+
+# Brute force
+ALLOW_BRUTE_FORCE: true
+
+# Metasploit usage
+ALLOW_METASPLOIT: true
+ALLOW_METERPRETER: true
+
+# Custom exploits
+ALLOW_CUSTOM_EXPLOITS: true
+
+# ------------------------------------------------------------------------------
+# SCAN INTENSITY
+# ------------------------------------------------------------------------------
+
+# Aggressive scanning for faster results
+SCAN_INTENSITY: aggressive
+NMAP_TIMING: -T4
+
+# No rate limiting needed
+RATE_LIMITING: disabled
+
+# ------------------------------------------------------------------------------
+# RATE LIMITING - DISABLED
+# ------------------------------------------------------------------------------
+
+# No limits for lab environments
+MAX_LOGIN_ATTEMPTS: unlimited
+RATE_LIMIT_WINDOW: 0
+
+# ------------------------------------------------------------------------------
+# SPECIAL NOTES
+# ------------------------------------------------------------------------------
+
+# This is an isolated lab environment
+ENVIRONMENT_TYPE: isolated_lab
+
+# No real systems at risk
+PRODUCTION_SYSTEMS: none
+
+# No restrictions on techniques
+PROHIBITED: none
+
+# No approval required
+REQUIRES_APPROVAL: none
+
+# ------------------------------------------------------------------------------
+# REPORTING
+# ------------------------------------------------------------------------------
+
+# Optional reporting for labs
+REPORT_FORMATS: comprehensive
+AUTO_REPORT: true
+
+# ------------------------------------------------------------------------------
+# VERIFICATION
+# ------------------------------------------------------------------------------
+#
+# Before using this ROE, verify:
+# [ ] Target is an authorized CTF/lab environment
+# [ ] Network is isolated from production systems
+# [ ] No real user data is present
+# [ ] You have permission to test (platform ToS, lab owner)
+#
+# ==============================================================================

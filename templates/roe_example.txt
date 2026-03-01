@@ -1,0 +1,123 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# NTREE RULES OF ENGAGEMENT (ROE) - EXAMPLE TEMPLATE
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# This file defines the rules and restrictions for the penetration test.
+# Edit this file according to your engagement agreement.
+#
+# Usage:
+#   ./start_pentest.sh --scope scope.txt --roe templates/roe_example.txt
+#
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ENGAGEMENT DETAILS
+# ──────────────────────────────────────────────────────────────────────────────
+
+ENGAGEMENT_NAME: Example Security Assessment
+CLIENT_NAME: Example Corporation
+START_DATE: 2025-01-01
+END_DATE: 2025-01-07
+
+# ──────────────────────────────────────────────────────────────────────────────
+# TESTING WINDOW
+# ──────────────────────────────────────────────────────────────────────────────
+
+# When testing is allowed
+TESTING_WINDOW: anytime
+# TESTING_WINDOW: 9AM-5PM EST weekdays
+# TESTING_WINDOW: 10PM-6AM EST (off-hours only)
+# TESTING_WINDOW: weekends only
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ALLOWED ACTIVITIES
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Network scanning and enumeration
+ALLOW_SCANNING: true
+
+# Vulnerability testing (safe checks)
+ALLOW_VULN_TESTING: true
+
+# Credential/password testing
+ALLOW_CREDENTIAL_TESTING: true
+
+# Exploitation attempts
+ALLOW_EXPLOITATION: false
+
+# Post-exploitation activities
+ALLOW_POST_EXPLOITATION: false
+
+# Social engineering
+ALLOW_SOCIAL_ENGINEERING: false
+
+# Physical testing
+ALLOW_PHYSICAL_TESTING: false
+
+# Denial of Service testing
+ALLOW_DOS_TESTING: false
+
+# ──────────────────────────────────────────────────────────────────────────────
+# SCAN INTENSITY
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Options: stealth, normal, aggressive
+SCAN_INTENSITY: normal
+
+# ──────────────────────────────────────────────────────────────────────────────
+# RATE LIMITING
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Maximum login attempts per account
+MAX_LOGIN_ATTEMPTS: 3
+
+# Time window for rate limiting (seconds)
+RATE_LIMIT_WINDOW: 300
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EMERGENCY CONTACTS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Client technical contact
+EMERGENCY_CONTACT: security@example.com
+EMERGENCY_PHONE: +1-555-123-4567
+
+# Escalation contact (if primary unavailable)
+ESCALATION_CONTACT: it-director@example.com
+
+# ──────────────────────────────────────────────────────────────────────────────
+# SPECIAL RESTRICTIONS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Systems requiring extra caution
+SENSITIVE_SYSTEMS: payment processing, customer database, backup systems
+
+# Prohibited actions
+PROHIBITED: data exfiltration, malware deployment, system modifications
+
+# Required approvals
+REQUIRES_APPROVAL: exploitation, credential extraction, lateral movement
+
+# ──────────────────────────────────────────────────────────────────────────────
+# REPORTING REQUIREMENTS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Report formats required
+REPORT_FORMATS: executive, technical
+
+# Notification for critical findings
+NOTIFY_CRITICAL: immediate
+CRITICAL_CONTACT: security@example.com
+
+# ══════════════════════════════════════════════════════════════════════════════
+# AUTHORIZATION STATEMENT
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# This penetration test is authorized by [AUTHORIZED_PERSON] on behalf of
+# [CLIENT_NAME]. The tester has permission to perform security testing
+# within the scope defined in the accompanying scope file.
+#
+# Authorization Reference: [CONTRACT/PO NUMBER]
+# Signed Date: [DATE]
+#
+# ══════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,157 @@
+# ==============================================================================
+# NTREE RULES OF ENGAGEMENT - EXTERNAL / WEB APPLICATION TEST
+# ==============================================================================
+#
+# Template for external-facing and web application security assessments.
+# Focus on internet-exposed assets and web vulnerabilities.
+#
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# ASSESSMENT DETAILS
+# ------------------------------------------------------------------------------
+
+ASSESSMENT_NAME: External Web Application Penetration Test
+CLIENT_NAME: [CLIENT_NAME]
+START_DATE: [START_DATE]
+END_DATE: [END_DATE]
+
+# ------------------------------------------------------------------------------
+# TESTING WINDOW
+# ------------------------------------------------------------------------------
+
+# External tests can often run anytime if not impacting production
+TESTING_WINDOW: anytime
+# TESTING_WINDOW: off-peak hours only (10PM-6AM)
+
+# ------------------------------------------------------------------------------
+# ALLOWED ACTIVITIES
+# ------------------------------------------------------------------------------
+
+# Network scanning and enumeration
+ALLOW_SCANNING: true
+
+# Vulnerability testing (safe checks)
+ALLOW_VULN_TESTING: true
+
+# Credential/password testing
+ALLOW_CREDENTIAL_TESTING: true
+
+# Exploitation attempts
+ALLOW_EXPLOITATION: false
+
+# Post-exploitation activities
+ALLOW_POST_EXPLOITATION: false
+
+# Social engineering
+ALLOW_SOCIAL_ENGINEERING: false
+
+# Physical testing
+ALLOW_PHYSICAL_TESTING: false
+
+# Denial of Service testing
+ALLOW_DOS_TESTING: false
+
+# ------------------------------------------------------------------------------
+# WEB APPLICATION SPECIFIC
+# ------------------------------------------------------------------------------
+
+# OWASP Top 10 Testing
+ALLOW_SQL_INJECTION: true
+ALLOW_XSS_TESTING: true
+ALLOW_CSRF_TESTING: true
+ALLOW_SSRF_TESTING: true
+ALLOW_XXE_TESTING: true
+ALLOW_IDOR_TESTING: true
+
+# Authentication testing
+ALLOW_AUTH_BYPASS: true
+ALLOW_SESSION_TESTING: true
+ALLOW_BRUTE_FORCE: false
+
+# File upload testing
+ALLOW_FILE_UPLOAD_TESTING: true
+
+# API testing
+ALLOW_API_TESTING: true
+ALLOW_GRAPHQL_TESTING: true
+
+# ------------------------------------------------------------------------------
+# SCAN INTENSITY
+# ------------------------------------------------------------------------------
+
+# Options: stealth, normal, aggressive
+SCAN_INTENSITY: normal
+
+# Web scanning rate (requests per second)
+WEB_SCAN_RATE: 10
+
+# ------------------------------------------------------------------------------
+# RATE LIMITING
+# ------------------------------------------------------------------------------
+
+# Maximum login attempts per account
+MAX_LOGIN_ATTEMPTS: 3
+
+# Time window for rate limiting (seconds)
+RATE_LIMIT_WINDOW: 300
+
+# Respect WAF/rate limiting
+RESPECT_WAF: true
+
+# ------------------------------------------------------------------------------
+# EMERGENCY CONTACTS
+# ------------------------------------------------------------------------------
+
+EMERGENCY_CONTACT: [SECURITY_EMAIL]
+EMERGENCY_PHONE: [SECURITY_PHONE]
+ESCALATION_CONTACT: [IT_DIRECTOR_EMAIL]
+
+# ------------------------------------------------------------------------------
+# SPECIAL RESTRICTIONS
+# ------------------------------------------------------------------------------
+
+# Critical functionality - test with extra caution
+SENSITIVE_FUNCTIONS: payment processing, user registration, password reset
+
+# Prohibited test data
+PROHIBITED_DATA: real customer data, production credentials
+
+# Prohibited actions
+PROHIBITED: data exfiltration, persistent backdoors, modifying production data
+
+# Actions requiring explicit approval
+REQUIRES_APPROVAL: exploitation, SQL injection beyond detection
+
+# ------------------------------------------------------------------------------
+# TESTING ACCOUNTS
+# ------------------------------------------------------------------------------
+
+# Test accounts provided (do not use real user accounts)
+USE_TEST_ACCOUNTS: true
+# TEST_ACCOUNT_1: testuser1@example.com
+# TEST_ACCOUNT_2: testadmin@example.com
+
+# ------------------------------------------------------------------------------
+# REPORTING REQUIREMENTS
+# ------------------------------------------------------------------------------
+
+REPORT_FORMATS: executive, technical
+NOTIFY_CRITICAL: immediate
+CRITICAL_CONTACT: [SECURITY_EMAIL]
+
+# OWASP categorization required
+OWASP_MAPPING: true
+
+# ------------------------------------------------------------------------------
+# AUTHORIZATION STATEMENT
+# ------------------------------------------------------------------------------
+#
+# This web application penetration test is authorized by [AUTHORIZED_PERSON]
+# on behalf of [CLIENT_NAME]. The tester has permission to perform security
+# testing on the specified web applications and APIs within scope.
+#
+# Authorization Reference: [CONTRACT/PO NUMBER]
+# Signed Date: [DATE]
+#
+# ==============================================================================

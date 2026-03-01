@@ -298,14 +298,18 @@ ntree/
 │   ├── ntree_agent_sdk.py             # SDK mode (MCP integration)
 │   ├── prescan.py                     # Pre-scan host discovery
 │   └── requirements.txt               # Python dependencies
-├── templates/                         # Scope templates
+├── templates/                         # Scope & RoE templates
 │   ├── scope_example.txt
 │   ├── scope_single_target.txt
 │   ├── scope_internal_network.txt
 │   ├── scope_ctf_lab.txt
 │   ├── scope_external.txt
 │   ├── scope_active_directory.txt
-│   └── scope_webapp.txt
+│   ├── scope_webapp.txt
+│   ├── roe_example.txt                # Rules of Engagement - general
+│   ├── roe_ctf_lab.txt                # RoE - CTF/lab (no restrictions)
+│   ├── roe_internal_network.txt       # RoE - internal network
+│   └── roe_external_webapp.txt        # RoE - external/web app
 └── ~/ntree/                           # Runtime directory
     ├── assessments/                   # Assessment workspaces
     ├── prescans/                      # Prescan output directories

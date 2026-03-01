@@ -1,0 +1,68 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# NTREE SCOPE FILE - MAIN EXAMPLE TEMPLATE
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# This file defines the authorized targets for penetration testing.
+# Edit this file with YOUR authorized targets before running NTREE.
+#
+# IMPORTANT: Only include systems you have WRITTEN PERMISSION to test!
+#
+# Usage:
+#   ./start_pentest.sh --scope templates/scope_example.txt
+#
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# INCLUDED TARGETS - Systems that WILL be tested
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Single IP addresses
+# 192.168.1.100
+# 192.168.1.101
+# 10.0.0.50
+
+# CIDR ranges (network blocks)
+# 192.168.1.0/24          # 254 hosts (192.168.1.1 - 192.168.1.254)
+# 10.10.10.0/28           # 14 hosts (10.10.10.1 - 10.10.10.14)
+# 172.16.0.0/16           # Large internal network
+
+# Domain names
+# example.com
+# app.example.com
+# api.example.com
+
+# Wildcard domains (all subdomains)
+# *.staging.example.com
+# *.dev.example.com
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EXCLUDED TARGETS - Systems that will NOT be tested (safety exclusions)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Critical infrastructure (always exclude these!)
+# EXCLUDE 192.168.1.1              # Gateway/Router
+# EXCLUDE 192.168.1.2              # DNS Server
+# EXCLUDE 192.168.1.254            # Firewall
+
+# Production systems
+# EXCLUDE production.example.com
+# EXCLUDE db.example.com
+# EXCLUDE payments.example.com
+
+# Management interfaces
+# EXCLUDE 192.168.1.10             # vCenter
+# EXCLUDE 192.168.1.11             # Backup server
+
+# ══════════════════════════════════════════════════════════════════════════════
+# QUICK START: Uncomment the examples below and modify for your environment
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Example: Small office network
+# 192.168.1.0/24
+# EXCLUDE 192.168.1.1
+
+# Example: Single web server test
+# 192.168.1.100
+
+# Example: Lab environment
+# 10.10.10.0/24

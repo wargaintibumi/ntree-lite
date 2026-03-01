@@ -1,0 +1,81 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# NTREE SCOPE FILE - WEB APPLICATION PENTEST
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Template for web application security testing.
+# Focus on web vulnerabilities: SQLi, XSS, Authentication, APIs, etc.
+#
+# Usage:
+#   ./start_pentest.sh --scope templates/scope_webapp.txt --iterations 100
+#
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# WEB APPLICATIONS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Main application
+app.example.com
+www.example.com
+
+# API endpoints
+api.example.com
+api-v2.example.com
+
+# Admin/Backend interfaces
+admin.example.com
+backend.example.com
+cms.example.com
+
+# ──────────────────────────────────────────────────────────────────────────────
+# DEVELOPMENT / STAGING (if in scope)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Staging environment
+staging.example.com
+stage.example.com
+
+# Development
+dev.example.com
+test.example.com
+
+# QA environment
+qa.example.com
+
+# ──────────────────────────────────────────────────────────────────────────────
+# MICROSERVICES / SUBDOMAINS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# All subdomains (use with caution)
+# *.example.com
+
+# Specific services
+auth.example.com
+login.example.com
+payment.example.com
+upload.example.com
+search.example.com
+
+# ──────────────────────────────────────────────────────────────────────────────
+# IP ADDRESSES (if web apps are IP-based)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Web servers
+# 192.168.1.80
+# 192.168.1.443
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EXCLUSIONS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Third-party integrations
+EXCLUDE cdn.example.com
+EXCLUDE assets.example.com
+EXCLUDE static.example.com
+
+# Production payment processing (if sensitive)
+# EXCLUDE checkout.example.com
+# EXCLUDE payment.example.com
+
+# Customer data endpoints (read-only)
+# EXCLUDE data.example.com

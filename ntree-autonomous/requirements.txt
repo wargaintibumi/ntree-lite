@@ -1,0 +1,37 @@
+# NTREE Autonomous Agent Requirements
+
+# Anthropic Claude SDK (for API mode)
+anthropic>=0.40.0
+
+# Claude Code SDK (for SDK mode - more Claude Code-like behavior)
+claude-code-sdk>=0.0.25
+
+# Async support
+aiofiles>=23.0.0
+asyncio-mqtt>=0.16.0
+
+# Configuration and data handling
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+
+# Scheduling and automation
+schedule>=1.2.0
+cron-descriptor>=1.4.0
+
+# Logging and monitoring
+colorlog>=6.7.0
+python-json-logger>=2.0.0
+
+# Security tools integration (from MCP servers)
+python-nmap>=0.7.1
+xmltodict>=0.13.0
+
+# Notifications
+requests>=2.31.0
+slack-sdk>=3.23.0  # Optional: Slack notifications
+
+# Database for persistence (optional)
+sqlalchemy>=2.0.0
+
+# Retry logic
+tenacity>=8.2.0

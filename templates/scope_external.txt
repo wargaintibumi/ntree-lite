@@ -1,0 +1,61 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# NTREE SCOPE FILE - EXTERNAL ATTACK SURFACE ASSESSMENT
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Template for testing internet-facing assets.
+# Typical engagement: Web applications, APIs, Public infrastructure
+#
+# Usage:
+#   ./start_pentest.sh --scope templates/scope_external.txt
+#
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# DOMAINS AND SUBDOMAINS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Primary domain
+example.com
+
+# All subdomains (wildcard)
+*.example.com
+
+# Specific applications
+www.example.com
+app.example.com
+api.example.com
+portal.example.com
+mail.example.com
+vpn.example.com
+
+# Development/Staging (if in scope)
+# staging.example.com
+# dev.example.com
+# *.staging.example.com
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PUBLIC IP RANGES
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Company public IP block
+# 203.0.113.0/28
+
+# Cloud infrastructure IPs
+# 52.x.x.x                        # AWS
+# 104.x.x.x                       # Azure
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EXCLUSIONS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Third-party services (not owned by client)
+EXCLUDE cdn.example.com
+EXCLUDE analytics.example.com
+
+# Customer-facing production (if restricted)
+# EXCLUDE shop.example.com
+# EXCLUDE checkout.example.com
+
+# Partner/vendor systems
+EXCLUDE partner.example.com
+EXCLUDE vendor-portal.example.com

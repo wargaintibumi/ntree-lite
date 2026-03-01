@@ -1,0 +1,47 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# NTREE SCOPE FILE - INTERNAL NETWORK PENTEST
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Template for testing internal corporate networks.
+# Typical engagement: Office LAN, Data Center, Corporate Infrastructure
+#
+# Usage:
+#   ./start_pentest.sh --scope templates/scope_internal_network.txt
+#
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# NETWORK SEGMENTS TO TEST
+# ──────────────────────────────────────────────────────────────────────────────
+
+# User workstation network
+192.168.1.0/24
+
+# Server VLAN
+192.168.10.0/24
+
+# Development network
+192.168.20.0/24
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CRITICAL EXCLUSIONS - DO NOT TEST
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Network infrastructure
+EXCLUDE 192.168.1.1               # Default gateway
+EXCLUDE 192.168.1.2               # Core switch
+EXCLUDE 192.168.1.3               # DNS server
+
+# Production critical systems
+EXCLUDE 192.168.10.50             # Production database
+EXCLUDE 192.168.10.51             # ERP system
+EXCLUDE 192.168.10.52             # Payment processing
+
+# Security infrastructure
+EXCLUDE 192.168.1.254             # Firewall management
+EXCLUDE 192.168.10.100            # SIEM server
+EXCLUDE 192.168.10.101            # Backup server
+
+# Executive systems (if required by ROE)
+# EXCLUDE 192.168.1.100           # CEO workstation
+# EXCLUDE 192.168.1.101           # CFO workstation

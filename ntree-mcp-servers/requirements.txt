@@ -1,0 +1,32 @@
+# NTREE MCP Servers - Python Dependencies
+
+# MCP Protocol
+mcp>=1.0.0
+
+# Data validation and parsing
+pydantic>=2.0.0
+typing-extensions>=4.0.0
+
+# Network scanning
+python-nmap>=0.7.1
+
+# XML/JSON parsing
+xmltodict>=0.13.0
+
+# Async file operations
+aiofiles>=23.0.0
+
+# Date/time handling
+python-dateutil>=2.8.0
+
+# Logging
+colorlog>=6.7.0
+
+# Development dependencies (optional)
+# Install with: pip install -e ".[dev]"
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0
+# pytest-cov>=4.0.0
+# black>=23.0.0
+# mypy>=1.0.0
+# ruff>=0.1.0

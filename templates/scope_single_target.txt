@@ -1,0 +1,31 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# NTREE SCOPE FILE - SINGLE TARGET
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Simple template for testing a single host or application.
+# Quick and focused assessment.
+#
+# Usage:
+#   ./start_pentest.sh --scope templates/scope_single_target.txt
+#
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# TARGET (uncomment and edit ONE of the following)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Option 1: IP Address
+# 192.168.1.100
+
+# Option 2: Hostname
+# server.example.com
+
+# Option 3: Domain (includes subdomains)
+# example.com
+
+# ══════════════════════════════════════════════════════════════════════════════
+# YOUR TARGET HERE:
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Replace this with your target:
+# YOUR_TARGET_IP_OR_DOMAIN

@@ -1,0 +1,90 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Build artifacts
+deployment_build/
+dist/
+build/
+*.egg
+
+# NTREE Runtime/Output Files
+logs/
+assessments/
+engagements/
+scans/
+reports/
+*.log
+
+# Scope files (should be in templates/ or user-created)
+scope_*.txt
+test_scope*.txt
+!templates/scope_*.txt
+
+# Obsolete/merged scripts (functionality moved to main scripts)
+create_deployment_package.sh
+run_test_pentest.py
+monitor_memory.sh
+start_pentest_pi.sh
+optimize_pi.sh
+activate.sh
+
+# Old documentation/prompts (superseded by CLAUDE.md)
+NTREE_Technical_Paper.pdf
+NTREE_system_prompt*.txt
+NTREE_CLAUDE_CODE_PROMPT.txt
+monitor_log.txt
+
+# Documentation (non-core)
+# Keep only README.md and CLAUDE.md, exclude all other markdown
+*.md
+!README.md
+!CLAUDE.md
+!ntree-mcp-servers/README.md
+!ntree-autonomous/README.md
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Local settings
+.claude/
+.env
+.env.local
+config.json
+!config.example.json
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+.cache/
+
+# Security sensitive files
+credentials/
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+# Test coverage
+htmlcov/
+.coverage
+coverage.xml
+*.cover

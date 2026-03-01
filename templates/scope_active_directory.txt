@@ -1,0 +1,76 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# NTREE SCOPE FILE - ACTIVE DIRECTORY / WINDOWS ENVIRONMENT
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Template for testing Windows Active Directory environments.
+# Typical engagement: Domain enumeration, privilege escalation, lateral movement
+#
+# Usage:
+#   ./start_pentest.sh --scope templates/scope_active_directory.txt
+#
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ──────────────────────────────────────────────────────────────────────────────
+# DOMAIN CONTROLLERS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Primary Domain Controller
+10.10.10.10
+dc01.corp.local
+
+# Secondary Domain Controller
+10.10.10.11
+dc02.corp.local
+
+# ──────────────────────────────────────────────────────────────────────────────
+# WINDOWS SERVERS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# File servers
+10.10.10.20
+fs01.corp.local
+
+# Application servers
+10.10.10.30
+10.10.10.31
+app01.corp.local
+app02.corp.local
+
+# Database servers
+10.10.10.40
+sql01.corp.local
+
+# Web servers
+10.10.10.50
+web01.corp.local
+
+# ──────────────────────────────────────────────────────────────────────────────
+# WORKSTATION SUBNETS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# IT department
+10.10.20.0/24
+
+# General users
+10.10.30.0/24
+
+# ──────────────────────────────────────────────────────────────────────────────
+# DOMAIN NAMES (for DNS enumeration)
+# ──────────────────────────────────────────────────────────────────────────────
+
+corp.local
+*.corp.local
+
+# ──────────────────────────────────────────────────────────────────────────────
+# EXCLUSIONS
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Production database (read-only testing only)
+# EXCLUDE 10.10.10.40
+
+# Backup domain controller (business continuity)
+# EXCLUDE 10.10.10.11
+
+# Executive workstations
+EXCLUDE 10.10.20.100              # CIO
+EXCLUDE 10.10.20.101              # IT Director

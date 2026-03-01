@@ -1,0 +1,55 @@
+{
+  "anthropic": {
+    "api_key": "YOUR_ANTHROPIC_API_KEY_HERE",
+    "model": "claude-sonnet-4-5-20250929",
+    "max_tokens": 4096,
+    "temperature": 0.7
+  },
+  "ntree": {
+    "home_dir": "~/ntree",
+    "engagements_dir": "~/ntree/engagements",
+    "logs_dir": "~/ntree/logs",
+    "templates_dir": "~/ntree/templates"
+  },
+  "pentest": {
+    "max_iterations": 50,
+    "default_scan_intensity": "normal",
+    "default_scan_timing": "-T3",
+    "credential_attempt_limit": 3,
+    "credential_attempt_window": 300,
+    "enable_safe_mode": true,
+    "require_approval_for": [
+      "extract_secrets",
+      "exploitation",
+      "destructive_tests"
+    ]
+  },
+  "automation": {
+    "enabled": false,
+    "schedule": "0 2 * * 0",
+    "scope_file": "~/ntree/templates/scope_weekly.txt",
+    "roe_file": "~/ntree/templates/roe_automated.txt",
+    "notification_email": "",
+    "notification_webhook": ""
+  },
+  "safety": {
+    "scope_validation_required": true,
+    "rate_limiting_enabled": true,
+    "audit_logging_enabled": true,
+    "block_destructive_actions": true,
+    "require_explicit_approval": true
+  },
+  "reporting": {
+    "default_format": "comprehensive",
+    "default_output": "html",
+    "auto_generate_on_completion": true,
+    "formats_to_generate": ["executive", "technical", "comprehensive"]
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "~/ntree/logs/ntree_agent.log",
+    "max_size_mb": 100,
+    "backup_count": 10,
+    "console_output": true
+  }
+}

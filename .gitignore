@@ -46,10 +46,9 @@ NTREE_CLAUDE_CODE_PROMPT.txt
 monitor_log.txt
 
 # Documentation (non-core)
-# Keep only README.md and CLAUDE.md, exclude all other markdown
+# Keep only README.md, exclude all other markdown
 *.md
 !README.md
-!CLAUDE.md
 !ntree-mcp-servers/README.md
 !ntree-autonomous/README.md
 

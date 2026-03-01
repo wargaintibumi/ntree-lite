@@ -4,6 +4,8 @@
 
 An autonomous penetration testing platform powered by [Claude Code SDK](https://docs.anthropic.com/en/docs/claude-code), integrating AI with security tools via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/). Built with security guardrails at every layer — not just prompt instructions, but code-enforced boundaries. Runs on Raspberry Pi 5 or Kali Linux ARM64.
 
+![NTREE Launcher — scope definition with Pi 5 optimizations](screenshots/start_pentest.png)
+
 ## Why NTREE?
 
 Most AI pentesting tools give an LLM a shell and hope for the best. NTREE takes a different approach: the AI never runs raw commands directly. Every action flows through **typed MCP tools** with input validation, scope enforcement, and audit logging — giving you autonomous pentesting with accountability.
@@ -134,6 +136,10 @@ Watch a pentest in real-time from another terminal:
 ./ntree_monitor.py --findings-only    # Only show new findings
 ```
 
+![Live monitor — MCP tool calls and assessment tracking](screenshots/ntree_monitor.png)
+
+![Live monitor — color-coded findings by severity](screenshots/ntree_monitor2.png)
+
 ## Session Resume
 
 ```bash
@@ -173,6 +179,14 @@ The [`examples/`](examples/) directory contains results from two real pentests a
 The CTF RoE (`SCAN_INTENSITY: aggressive`, `RATE_LIMITING: disabled`, `REQUIRES_APPROVAL: none`) made the agent hunt for quick wins. The Internal Network RoE (`MAX_LOGIN_ATTEMPTS: 3`, `REQUIRES_APPROVAL: exploitation`, `PROHIBITED: data exfiltration`) made it spend more time on enumeration and document configuration weaknesses that matter in corporate environments.
 
 **RoE doesn't just restrict — it shapes strategy.** See [`examples/README.md`](examples/README.md) for the full breakdown.
+
+### Generated Reports
+
+NTREE produces professional HTML reports with severity dashboards, executive summaries, RoE compliance badges, and full token usage transparency.
+
+![HTML report — severity dashboard, executive summary, scope, and RoE section](screenshots/report.png)
+
+![HTML report — methodology and AI token usage & cost breakdown](screenshots/report2.png)
 
 ## Scope File Syntax
 

@@ -36,7 +36,7 @@ from ntree_mcp.utils.nmap_parser import parse_nmap_xml
 
 # Setup logging
 import logging
-log_dir = Path.home() / "ntree" / "logs"
+log_dir = Path(os.getenv("NTREE_HOME", str(Path.home() / "ntree"))) / "logs"
 log_dir.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(

@@ -78,7 +78,8 @@ class NTREEMonitor:
     """Live monitor for NTREE penetration tests."""
 
     def __init__(self, ntree_home: str = None, assessment_id: str = None, follow_new: bool = True, show_memory: bool = False):
-        self.ntree_home = Path(ntree_home or os.getenv("NTREE_HOME", "~/ntree")).expanduser()
+        _script_dir = str(Path(__file__).resolve().parent)
+        self.ntree_home = Path(ntree_home or os.getenv("NTREE_HOME", _script_dir)).expanduser()
         self.logs_dir = self.ntree_home / "logs"
         self.assessments_dir = self.ntree_home / "assessments"
 
@@ -873,7 +874,7 @@ def main():
     )
     parser.add_argument(
         "--home",
-        help="NTREE home directory (default: ~/ntree or $NTREE_HOME)"
+        help="NTREE home directory (default: script directory or $NTREE_HOME)"
     )
     parser.add_argument(
         "--log-only", "-l",

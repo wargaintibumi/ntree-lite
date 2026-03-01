@@ -50,7 +50,7 @@ except ImportError:
 
 
 # Setup logging - ensure logs directory exists
-log_dir = Path.home() / "ntree" / "logs"
+log_dir = Path(os.getenv("NTREE_HOME", str(Path.home() / "ntree"))) / "logs"
 log_dir.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(
@@ -86,7 +86,8 @@ class NTREEAgentSDK:
         if not ClaudeSDKClient:
             raise ImportError("claude-code-sdk not installed. Install with: pip install claude-code-sdk")
 
-        self.work_dir = Path(work_dir or os.getenv("NTREE_WORK_DIR", "~/ntree/sessions")).expanduser()
+        _ntree_home = os.getenv("NTREE_HOME", str(Path.home() / "ntree"))
+        self.work_dir = Path(work_dir or os.getenv("NTREE_WORK_DIR", f"{_ntree_home}/sessions")).expanduser()
         self.work_dir.mkdir(exist_ok=True, parents=True)
         self.prompts_dir = Path(__file__).parent / "prompts"
         # Normalize assessment_id the same way scope.py does (lowercase, underscores)
@@ -109,6 +110,8 @@ class NTREEAgentSDK:
         self.tools_called: List[str] = []
         self.scans_performed: int = 0
         self.findings_saved: int = 0
+        self._rate_limited: bool = False
+        self._rate_limit_retries: int = 0
 
         # Conversation log file (will be set when assessment starts)
         self.conversation_log_path: Optional[Path] = None
@@ -626,10 +629,25 @@ Call this MCP tool NOW. Do not write an explanation first."""
                 # Log initial response
                 if response_text:
                     logger.info(f"Initial response length: {len(response_text)} chars")
+                elif self._rate_limited:
+                    logger.warning("Initial response was rate limited")
 
                 # Continue processing responses
                 while iteration < max_iterations:
                     if not response_text:
+                        if self._rate_limited:
+                            wait_secs = min(60, 15 * (2 ** min(self._rate_limit_retries, 3)))
+                            self._rate_limit_retries = getattr(self, '_rate_limit_retries', 0) + 1
+                            logger.warning(f"Rate limited — waiting {wait_secs}s before retry (attempt {self._rate_limit_retries})...")
+                            self._rate_limited = False
+                            await asyncio.sleep(wait_secs)
+                            # Send a continuation prompt to resume
+                            continuation = "Continue the penetration test from where you left off."
+                            self._log_message("user", continuation)
+                            await client.query(continuation)
+                            response_text = await self._collect_response(client, timeout_seconds=3600, idle_timeout=1800)
+                            iteration += 1
+                            continue
                         logger.info("Empty response received")
                         break
 
@@ -1243,7 +1261,10 @@ End by calling mcp__ntree-scope__complete_assessment to generate reports."""
                         # SDK parser doesn't yet recognise (MessageParseError). Log and
                         # continue so the session isn't aborted by a single unknown event.
                         err_name = type(msg_err).__name__
-                        logger.warning(f"Skipping unhandled SDK message ({err_name}): {msg_err}")
+                        err_str = str(msg_err)
+                        logger.warning(f"Skipping unhandled SDK message ({err_name}): {err_str}")
+                        if "rate_limit" in err_str.lower():
+                            self._rate_limited = True
                         continue
 
             # Apply overall timeout to message collection

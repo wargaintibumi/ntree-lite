@@ -103,9 +103,11 @@ check_platform() {
     fi
 }
 
-# Get script directory
+# Get script directory — also used as NTREE_HOME (runtime directory)
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+NTREE_HOME="${NTREE_HOME:-$SCRIPT_DIR}"
 log_info "Installation directory: $SCRIPT_DIR"
+log_info "Runtime directory (NTREE_HOME): $NTREE_HOME"
 
 # Confirm installation
 confirm_installation() {
@@ -688,9 +690,9 @@ install_wordlists() {
 setup_ntree_structure() {
     log_step "Setting up NTREE directory structure..."
 
-    mkdir -p ~/ntree/{assessments,templates,tools,logs}
+    mkdir -p "$NTREE_HOME"/{assessments,templates,tools,logs}
 
-    log_success "NTREE directory structure created"
+    log_success "NTREE directory structure created at $NTREE_HOME"
 }
 
 # Install MCP servers
@@ -704,11 +706,11 @@ install_mcp_servers() {
     fi
 
     # Create target directory
-    mkdir -p ~/ntree
+    mkdir -p "$NTREE_HOME"
 
     # Get absolute paths to avoid conflicts
     SOURCE_PATH=$(realpath "$SCRIPT_DIR/ntree-mcp-servers")
-    TARGET_PATH=$(realpath ~/ntree/ntree-mcp-servers 2>/dev/null || echo "$HOME/ntree/ntree-mcp-servers")
+    TARGET_PATH=$(realpath "$NTREE_HOME/ntree-mcp-servers" 2>/dev/null || echo "$NTREE_HOME/ntree-mcp-servers")
 
     # Check if source and target are the same
     if [[ "$SOURCE_PATH" == "$TARGET_PATH" ]]; then
@@ -720,18 +722,18 @@ install_mcp_servers() {
         cp -r "$SCRIPT_DIR/ntree-mcp-servers" "$TEMP_DIR/"
 
         # Remove existing if present
-        if [[ -d ~/ntree/ntree-mcp-servers ]]; then
+        if [[ -d "$NTREE_HOME/ntree-mcp-servers" ]]; then
             log_info "Removing existing MCP servers installation..."
-            rm -rf ~/ntree/ntree-mcp-servers
+            rm -rf "$NTREE_HOME/ntree-mcp-servers"
         fi
 
         # Move from temp to final location
-        mv "$TEMP_DIR/ntree-mcp-servers" ~/ntree/
+        mv "$TEMP_DIR/ntree-mcp-servers" "$NTREE_HOME/"
         rm -rf "$TEMP_DIR"
     fi
 
     # Install dependencies
-    cd ~/ntree/ntree-mcp-servers
+    cd "$NTREE_HOME/ntree-mcp-servers"
 
     # Remove old venv if it exists to ensure clean install
     if [[ -d venv ]]; then
@@ -755,7 +757,7 @@ configure_mcp_servers() {
     mkdir -p ~/.config/claude-code
 
     MCP_CONFIG=~/.config/claude-code/mcp-servers.json
-    NTREE_MCP_PATH="$HOME/ntree/ntree-mcp-servers"
+    NTREE_MCP_PATH="$NTREE_HOME/ntree-mcp-servers"
 
     # Backup existing config
     if [[ -f "$MCP_CONFIG" ]]; then
@@ -771,7 +773,7 @@ configure_mcp_servers() {
       "command": "${NTREE_MCP_PATH}/venv/bin/python",
       "args": ["-m", "ntree_mcp.scope"],
       "env": {
-        "NTREE_HOME": "$HOME/ntree",
+        "NTREE_HOME": "$NTREE_HOME",
         "PYTHONPATH": "${NTREE_MCP_PATH}"
       }
     },
@@ -779,7 +781,7 @@ configure_mcp_servers() {
       "command": "${NTREE_MCP_PATH}/venv/bin/python",
       "args": ["-m", "ntree_mcp.scan"],
       "env": {
-        "NTREE_HOME": "$HOME/ntree",
+        "NTREE_HOME": "$NTREE_HOME",
         "PYTHONPATH": "${NTREE_MCP_PATH}"
       }
     },
@@ -787,7 +789,7 @@ configure_mcp_servers() {
       "command": "${NTREE_MCP_PATH}/venv/bin/python",
       "args": ["-m", "ntree_mcp.enum"],
       "env": {
-        "NTREE_HOME": "$HOME/ntree",
+        "NTREE_HOME": "$NTREE_HOME",
         "PYTHONPATH": "${NTREE_MCP_PATH}"
       }
     },
@@ -795,7 +797,7 @@ configure_mcp_servers() {
       "command": "${NTREE_MCP_PATH}/venv/bin/python",
       "args": ["-m", "ntree_mcp.vuln"],
       "env": {
-        "NTREE_HOME": "$HOME/ntree",
+        "NTREE_HOME": "$NTREE_HOME",
         "PYTHONPATH": "${NTREE_MCP_PATH}"
       }
     },
@@ -803,7 +805,7 @@ configure_mcp_servers() {
       "command": "${NTREE_MCP_PATH}/venv/bin/python",
       "args": ["-m", "ntree_mcp.report"],
       "env": {
-        "NTREE_HOME": "$HOME/ntree",
+        "NTREE_HOME": "$NTREE_HOME",
         "PYTHONPATH": "${NTREE_MCP_PATH}"
       }
     }
@@ -825,11 +827,11 @@ install_autonomous_mode() {
     fi
 
     # Create target directory
-    mkdir -p ~/ntree
+    mkdir -p "$NTREE_HOME"
 
     # Get absolute paths to avoid conflicts
     SOURCE_PATH=$(realpath "$SCRIPT_DIR/ntree-autonomous")
-    TARGET_PATH=$(realpath ~/ntree/ntree-autonomous 2>/dev/null || echo "$HOME/ntree/ntree-autonomous")
+    TARGET_PATH=$(realpath "$NTREE_HOME/ntree-autonomous" 2>/dev/null || echo "$NTREE_HOME/ntree-autonomous")
 
     # Check if source and target are the same
     if [[ "$SOURCE_PATH" == "$TARGET_PATH" ]]; then
@@ -841,13 +843,13 @@ install_autonomous_mode() {
         cp -r "$SCRIPT_DIR/ntree-autonomous" "$TEMP_DIR/"
 
         # Remove existing if present
-        if [[ -d ~/ntree/ntree-autonomous ]]; then
+        if [[ -d "$NTREE_HOME/ntree-autonomous" ]]; then
             log_info "Removing existing autonomous mode installation..."
-            rm -rf ~/ntree/ntree-autonomous
+            rm -rf "$NTREE_HOME/ntree-autonomous"
         fi
 
         # Move from temp to final location
-        mv "$TEMP_DIR/ntree-autonomous" ~/ntree/
+        mv "$TEMP_DIR/ntree-autonomous" "$NTREE_HOME/"
         rm -rf "$TEMP_DIR"
     fi
 
@@ -858,8 +860,8 @@ install_autonomous_mode() {
 copy_templates() {
     log_step "Copying templates..."
 
-    mkdir -p ~/ntree/templates
-    cp "$SCRIPT_DIR/templates/"* ~/ntree/templates/ 2>/dev/null || true
+    mkdir -p "$NTREE_HOME/templates"
+    cp "$SCRIPT_DIR/templates/"* "$NTREE_HOME/templates/" 2>/dev/null || true
 
     log_success "Templates copied"
 }
@@ -888,7 +890,7 @@ create_helper_scripts() {
     log_step "Creating helper scripts..."
 
     # Create activation script
-    cat > ~/ntree/activate.sh << 'EOF'
+    cat > "$NTREE_HOME/activate.sh" << EOF
 #!/bin/bash
 # Activate NTREE environment
 
@@ -896,23 +898,23 @@ create_helper_scripts() {
 source ~/venvs/sectools/bin/activate
 
 # Add pipx tools to PATH
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="\$HOME/.local/bin:\$PATH"
 
 # Add tools to PATH
-export PATH="$HOME/tools/testssl:$PATH"
+export PATH="\$HOME/tools/testssl:\$PATH"
 
 # Set NTREE home
-export NTREE_HOME="$HOME/ntree"
+export NTREE_HOME="$NTREE_HOME"
 
 # Set wordlist paths
-export NTREE_WORDLISTS_PATH="$HOME/wordlists"
+export NTREE_WORDLISTS_PATH="\$HOME/wordlists"
 
 echo "NTREE environment activated"
-echo "Python venv: $(which python)"
-echo "NTREE_HOME: $NTREE_HOME"
+echo "Python venv: \$(which python)"
+echo "NTREE_HOME: \$NTREE_HOME"
 EOF
 
-    chmod +x ~/ntree/activate.sh
+    chmod +x "$NTREE_HOME/activate.sh"
 
     log_success "Helper scripts created"
 }
@@ -927,7 +929,7 @@ show_next_steps() {
     echo "╚════════════════════════════════════════════════════════╝"
     echo ""
 
-    log_success "NTREE is installed in: ~/ntree"
+    log_success "NTREE is installed in: $NTREE_HOME"
     echo ""
 
     echo "═══════════════════════════════════════════════════════════════"
@@ -952,19 +954,19 @@ show_next_steps() {
     echo ""
     echo "2. Interactive Mode:"
     echo "   ${GREEN}claude${NC}"
-    echo "   Then say: ${YELLOW}\"Start NTREE with scope: ~/ntree/templates/scope_example.txt\"${NC}"
+    echo "   Then say: ${YELLOW}\"Start NTREE with scope: $NTREE_HOME/templates/scope_example.txt\"${NC}"
     echo ""
     echo "3. Autonomous SDK Mode:"
-    echo "   ${GREEN}python ~/ntree/ntree-autonomous/ntree_agent_sdk.py --scope ~/ntree/templates/scope_example.txt${NC}"
+    echo "   ${GREEN}$NTREE_HOME/start_pentest.sh --scope $NTREE_HOME/templates/scope_example.txt${NC}"
     echo ""
 
     echo "═══════════════════════════════════════════════════════════════"
     echo "  ${CYAN}Resources${NC}"
     echo "═══════════════════════════════════════════════════════════════"
     echo ""
-    log_info "NTREE Directory: ${GREEN}~/ntree${NC}"
-    log_info "Templates: ${GREEN}~/ntree/templates/${NC}"
-    log_info "Assessments: ${GREEN}~/ntree/assessments/${NC}"
+    log_info "NTREE Directory: ${GREEN}$NTREE_HOME${NC}"
+    log_info "Templates: ${GREEN}$NTREE_HOME/templates/${NC}"
+    log_info "Assessments: ${GREEN}$NTREE_HOME/assessments/${NC}"
     log_info "Wordlists: ${GREEN}~/wordlists/${NC}"
     log_info "Documentation: ${GREEN}$SCRIPT_DIR/README.md${NC}"
     echo ""

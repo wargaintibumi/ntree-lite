@@ -57,7 +57,7 @@ print_banner() {
     echo ""
     echo "╔═══════════════════════════════════════════════════════════════╗"
     echo "║                                                               ║"
-    echo "║      NTREE - Neural Tactical Red-Team Exploitation Engine     ║"
+    echo "║      NTREE - Neura Tactical Red-Team Exploitation Engine     ║"
     echo "║         Setup Script for Raspberry Pi 5 & Kali Linux          ║"
     echo "║                   Version: $VERSION                           ║"
     echo "║                                                               ║"

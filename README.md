@@ -1,4 +1,4 @@
-# NTREE - Neural Tactical Red-Team Exploitation Engine
+# NTREE - Neura Tactical Red-Team Exploitation Engine
 
 **Open Source Edition**
 

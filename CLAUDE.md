@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-NTREE (Neural Tactical Red-Team Exploitation Engine) is an open-source autonomous penetration testing platform that integrates Claude Code with security tools via MCP (Model Context Protocol) servers. It runs on Raspberry Pi 5 or Kali Linux ARM64.
+NTREE (Neura Tactical Red-Team Exploitation Engine) is an open-source autonomous penetration testing platform that integrates Claude Code with security tools via MCP (Model Context Protocol) servers. It runs on Raspberry Pi 5 or Kali Linux ARM64.
 
 ### Key Features
 

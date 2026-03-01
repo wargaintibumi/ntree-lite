@@ -228,7 +228,7 @@ class NTREEAgentSDK:
             return prompt_file.read_text()
 
         # Default embedded prompt
-        return """You are NTREE (Neural Tactical Red-Team Exploitation Engine), an autonomous penetration testing AI.
+        return """You are NTREE (Neura Tactical Red-Team Exploitation Engine), an autonomous penetration testing AI.
 
 Your mission is to conduct thorough, professional penetration tests using the NTREE MCP tools available to you.
 

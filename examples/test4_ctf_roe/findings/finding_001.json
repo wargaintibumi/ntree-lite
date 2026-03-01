@@ -1,0 +1,27 @@
+{
+  "finding_id": "finding_001",
+  "title": "Root Shell via Ingreslock Bind Shell (Port 1524)",
+  "severity": "critical",
+  "description": "A root-level bind shell is listening on TCP port 1524 (ingreslock). Any attacker can connect directly and obtain an interactive root shell with no authentication required. This provides complete system compromise with uid=0(root) access.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Connection to bind shell on port 1524 returned immediate root access:\\n\\nroot@metasploitable:/# uid=0(root) gid=0(root) groups=0(root)\\nroot\\nmetasploitable\\nLinux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux\\nroot:x:0:0:root:/root:/bin/bash\\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\\nbin:x:2:2:bin:/bin:/bin/sh\\n\\n/etc/shadow extracted:\\nroot:$1$/avpfBJ1$x0z8w5UF9Iv./DR9E9Lid.:14747:0:99999:7:::\\nsys:$1$fUX6BPOt$Miyc3UpOzQJqz4s5wFD9l0:14742:0:99999:7:::",
+  "cvss_score": 10.0,
+  "remediation": "Remove the bind shell from port 1524. Investigate how it was installed and check for additional backdoors. Rebuild the system from a known-good image.",
+  "references": [
+    "CWE-798",
+    "CWE-284"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:01:04.034021",
+  "assessment_id": "test4",
+  "evidence_validation": {
+    "quality": "excellent",
+    "score": 75,
+    "issues": [],
+    "suggestions": [],
+    "has_exploitation_proof": true
+  }
+}

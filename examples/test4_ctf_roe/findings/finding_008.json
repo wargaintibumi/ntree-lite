@@ -1,0 +1,33 @@
+{
+  "finding_id": "finding_008",
+  "title": "Web Server Information Disclosure (phpinfo, phpMyAdmin, Directory Indexing)",
+  "severity": "medium",
+  "description": "Apache 2.2.8 with PHP 5.2.4 exposes sensitive information through multiple vectors: phpinfo.php reveals full system configuration, phpMyAdmin is publicly accessible, directory indexing is enabled on /doc/, /test/, /icons/, and HTTP TRACE method is active (XST risk).",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Web Enumeration Results:\\n\\nTechnologies: Apache/2.2.8 (Ubuntu) DAV/2, PHP/5.2.4-2ubuntu5.10\\n\\nExposed endpoints:\\n- /phpinfo.php - Full PHP configuration disclosure\\n- /phpMyAdmin/ - Database management interface (public)\\n- /dav - WebDAV enabled\\n- /doc/ - Directory indexing (may expose /usr/doc)\\n- /test/ - Directory indexing\\n- /server-status - Apache status page\\n\\nMissing security headers: X-Frame-Options, X-XSS-Protection, X-Content-Type-Options, Strict-Transport-Security, Content-Security-Policy\\n\\nHTTP TRACE method active (XST vulnerability)",
+  "cvss_score": 5.3,
+  "remediation": "Remove phpinfo.php and restrict phpMyAdmin access. Disable directory indexing with 'Options -Indexes'. Disable TRACE method. Add security headers.",
+  "references": [
+    "CWE-200",
+    "CWE-548",
+    "CVE-1999-0678"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:01:53.803060",
+  "assessment_id": "test4",
+  "evidence_validation": {
+    "quality": "weak",
+    "score": 10,
+    "issues": [
+      "No proof of exploitation found"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction"
+    ],
+    "has_exploitation_proof": false
+  }
+}

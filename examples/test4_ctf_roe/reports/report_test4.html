@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test4 - NTREE Security Report</title>
+    <style>
+        :root {
+            --critical: #dc3545;
+            --high: #fd7e14;
+            --medium: #ffc107;
+            --low: #28a745;
+            --info: #17a2b8;
+            --bg-dark: #1a1a2e;
+            --bg-card: #16213e;
+            --text-primary: #eee;
+            --text-secondary: #aaa;
+            --border-color: #0f3460;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-card), #1a1a3e);
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .meta-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .meta-item label {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            display: block;
+        }
+
+        .meta-item span {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        .summary-card:hover { transform: translateY(-5px); }
+
+        .summary-card .number {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .summary-card.critical .number { color: var(--critical); }
+        .summary-card.high .number { color: var(--high); }
+        .summary-card.medium .number { color: var(--medium); }
+        .summary-card.low .number { color: var(--low); }
+        .summary-card.info .number { color: var(--info); }
+
+        section {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        section h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .finding {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--info);
+        }
+
+        .finding.critical { border-left-color: var(--critical); }
+        .finding.high { border-left-color: var(--high); }
+        .finding.medium { border-left-color: var(--medium); }
+        .finding.low { border-left-color: var(--low); }
+
+        .finding-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .finding h3 {
+            font-size: 1.2em;
+            flex: 1;
+        }
+
+        .severity-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .severity-badge.critical { background: var(--critical); }
+        .severity-badge.high { background: var(--high); color: #000; }
+        .severity-badge.medium { background: var(--medium); color: #000; }
+        .severity-badge.low { background: var(--low); }
+        .severity-badge.info { background: var(--info); }
+
+        .finding-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .finding-details .detail {
+            background: rgba(0,0,0,0.2);
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .finding-details label {
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .evidence {
+            background: #0d1117;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+        .evidence pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .evidence-warning {
+            background: rgba(253, 126, 20, 0.1);
+            border: 1px solid var(--high);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .remediation {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--low);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .remediation h4 {
+            color: var(--low);
+            margin-bottom: 10px;
+        }
+
+        .host-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .host-tag {
+            background: rgba(0,212,255,0.2);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-family: monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: rgba(0,0,0,0.3);
+            font-weight: 600;
+        }
+
+        tr:hover { background: rgba(255,255,255,0.03); }
+
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 500px;
+        }
+
+        .risk-cell {
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .collapsible:after {
+            content: ' [+]';
+            color: var(--text-secondary);
+        }
+
+        .collapsible.active:after {
+            content: ' [-]';
+        }
+
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .content.show {
+            max-height: none;
+        }
+
+        @media print {
+            body { background: white; color: black; }
+            .container { max-width: 100%; }
+            section { break-inside: avoid; }
+            .finding { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>test4</h1>
+            <p>Automated penetration test</p>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <label>Assessment ID</label>
+                    <span>test4</span>
+                </div>
+                <div class="meta-item">
+                    <label>Date</label>
+                    <span>2026-03-01</span>
+                </div>
+                <div class="meta-item">
+                    <label>Duration</label>
+                    <span>9 minutes</span>
+                </div>
+                <div class="meta-item">
+                    <label>Hosts Tested</label>
+                    <span>1</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="summary-cards">
+            <div class="summary-card critical">
+                <span class="number">4</span>
+                <span>Critical</span>
+            </div>
+            <div class="summary-card high">
+                <span class="number">2</span>
+                <span>High</span>
+            </div>
+            <div class="summary-card medium">
+                <span class="number">2</span>
+                <span>Medium</span>
+            </div>
+            <div class="summary-card low">
+                <span class="number">0</span>
+                <span>Low</span>
+            </div>
+            <div class="summary-card info">
+                <span class="number">0</span>
+                <span>Info</span>
+            </div>
+        </div>
+
+        <section id="executive-summary">
+            <h2>Executive Summary</h2>
+            <p>A penetration test was conducted against the target environment, discovering 1 hosts with 16 services. The overall security posture is assessed as **Critical** with a risk score of 82.9/100. **4 CRITICAL** vulnerabilities were identified requiring immediate attention. 2 high-severity issues were found that should be addressed in the near term. A total of 8 actionable findings require remediation. Note: 4 findings have evidence that may need additional validation.</p>
+        </section>
+
+        <section id="scope">
+            <h2>Scope</h2>
+            <h4>In-Scope Targets</h4>
+            <div class="host-list">
+                <span class="host-tag">192.168.0.140</span>
+            </div>
+            
+            <details style="margin-top:20px;" id="roe-details">
+<summary style="cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;user-select:none;" onclick="var a=this.querySelector('span.roe-arrow');setTimeout(function(){a.textContent=document.getElementById('roe-details').open?'▼':'▶'},0)">
+<span class="roe-arrow" style="font-size:0.8em;color:var(--text-secondary);">▶</span>
+<h4 style="margin:0;font-size:1em;">Rules of Engagement</h4>
+</summary>
+<div style="margin-top:10px;padding:0 4px;">
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">==============================================================================</p>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">NTREE RULES OF ENGAGEMENT - CTF / LAB ENVIRONMENT</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">==============================================================================</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Template for CTF challenges, training labs, and isolated test environments.</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Minimal restrictions - designed for learning and practice.</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Suitable for: HackTheBox, TryHackMe, VulnHub, home labs, training environments</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">==============================================================================</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Assessment Name</span><span style="font-size:0.9em;">CTF/Lab Practice Session</span></div>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Assessment Type</span><span style="font-size:0.9em;">ctf_lab</span></div>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">ALLOWED ACTIVITIES - ALL ENABLED</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Network scanning and enumeration</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Scanning</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Vulnerability testing</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Vuln Testing</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Credential/password testing</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Credential Testing</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Exploitation attempts</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Exploitation</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Post-exploitation activities</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Post Exploitation</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Social engineering (N/A for labs)</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(220,53,69,0.2);color:#dc3545;border:1px solid rgba(220,53,69,0.4);">Allow Social Engineering</span><span style="font-size:0.9em;">false</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Physical testing (N/A for labs)</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(220,53,69,0.2);color:#dc3545;border:1px solid rgba(220,53,69,0.4);">Allow Physical Testing</span><span style="font-size:0.9em;">false</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Denial of Service testing (safe in isolated labs)</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Dos Testing</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">LAB-SPECIFIC PERMISSIONS</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Full exploitation allowed</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Full Exploitation</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Privilege escalation</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Privesc</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Persistence (for practice)</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Persistence</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Data access</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Data Access</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Password cracking</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Password Cracking</span><span style="font-size:0.9em;">true</span></div>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Hashcat</span><span style="font-size:0.9em;">true</span></div>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow John</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Brute force</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Brute Force</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Metasploit usage</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Metasploit</span><span style="font-size:0.9em;">true</span></div>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Meterpreter</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Custom exploits</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(40,167,69,0.2);color:#28a745;border:1px solid rgba(40,167,69,0.4);">Allow Custom Exploits</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">SCAN INTENSITY</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Aggressive scanning for faster results</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Scan Intensity</span><span style="font-size:0.9em;">aggressive</span></div>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Nmap Timing</span><span style="font-size:0.9em;">-T4</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">No rate limiting needed</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Rate Limiting</span><span style="font-size:0.9em;">disabled</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">RATE LIMITING - DISABLED</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">No limits for lab environments</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Max Login Attempts</span><span style="font-size:0.9em;">unlimited</span></div>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Rate Limit Window</span><span style="font-size:0.9em;">0</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">SPECIAL NOTES</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">This is an isolated lab environment</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Environment Type</span><span style="font-size:0.9em;">isolated_lab</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">No real systems at risk</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Production Systems</span><span style="font-size:0.9em;">none</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">No restrictions on techniques</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(220,53,69,0.2);color:#dc3545;border:1px solid rgba(220,53,69,0.4);">Prohibited</span><span style="font-size:0.9em;">none</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">No approval required</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(253,126,20,0.2);color:#fd7e14;border:1px solid rgba(253,126,20,0.4);">Requires Approval</span><span style="font-size:0.9em;">none</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">REPORTING</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Optional reporting for labs</p>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Report Formats</span><span style="font-size:0.9em;">comprehensive</span></div>
+<div style="margin:4px 0;display:flex;align-items:center;flex-wrap:wrap;"><span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.8em;font-weight:600;margin-right:6px;background:rgba(0,212,255,0.15);color:#00d4ff;border:1px solid rgba(0,212,255,0.3);">Auto Report</span><span style="font-size:0.9em;">true</span></div>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<h5 style="color:var(--text-primary);margin:14px 0 6px 0;font-size:0.95em;">VERIFICATION</h5>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">------------------------------------------------------------------------------</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">Before using this ROE, verify:</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">[ ] Target is an authorized CTF/lab environment</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">[ ] Network is isolated from production systems</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">[ ] No real user data is present</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">[ ] You have permission to test (platform ToS, lab owner)</p>
+<p style="color:var(--text-secondary);font-style:italic;font-size:0.85em;margin:2px 0;">==============================================================================</p>
+</div>
+</details>
+        </section>
+
+        <section id="findings">
+            <h2>Findings (8)</h2>
+            
+            <div class="finding critical">
+                <div class="finding-header">
+                    <h3>Root Shell via Ingreslock Bind Shell (Port 1524)</h3>
+                    <span class="severity-badge critical">CRITICAL</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>10.0</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-001</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>excellent</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> A root-level bind shell is listening on TCP port 1524 (ingreslock). Any attacker can connect directly and obtain an interactive root shell with no authentication required. This provides complete system compromise with uid=0(root) access.</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>Connection to bind shell on port 1524 returned immediate root access:\n\nroot@metasploitable:/# uid=0(root) gid=0(root) groups=0(root)\nroot\nmetasploitable\nLinux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux\nroot:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\nbin:x:2:2:bin:/bin:/bin/sh\n\n/etc/shadow extracted:\nroot:$1$/avpfBJ1$x0z8w5UF9Iv./DR9E9Lid.:14747:0:99999:7:::\nsys:$1$fUX6BPOt$Miyc3UpOzQJqz4s5wFD9l0:14742:0:99999:7:::</pre>
+                    </div>
+                </div>
+
+                
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Remove the bind shell from port 1524. Investigate how it was installed and check for additional backdoors. Rebuild the system from a known-good image.</p>
+                </div>
+            </div>
+            
+
+            <div class="finding critical">
+                <div class="finding-header">
+                    <h3>vsftpd 2.3.4 Backdoor Command Execution (CVE-2011-2523)</h3>
+                    <span class="severity-badge critical">CRITICAL</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>10.0</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-002</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>acceptable</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> The vsftpd 2.3.4 FTP server contains a backdoor that opens a root shell on TCP port 6200 when a username containing &#x27;:)&#x27; is sent during authentication. This was a supply-chain compromise of the vsftpd source code. Exploitation provides immediate uid=0(root) access.</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>Triggered backdoor by sending &#x27;USER backdoor:)&#x27; to FTP port 21, then connected to port 6200:\n\n220 (vsFTPd 2.3.4)\n331 Please specify the password.\n\nBackdoor shell on port 6200:\nuid=0(root) gid=0(root)\nroot\nmetasploitable\nLinux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux</pre>
+                    </div>
+                </div>
+
+                
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Upgrade vsftpd to a version later than 2.3.4 obtained from a trusted source. Verify package integrity with checksums.</p>
+                </div>
+            </div>
+            
+
+            <div class="finding critical">
+                <div class="finding-header">
+                    <h3>NFS Root Filesystem Export to All Hosts</h3>
+                    <span class="severity-badge critical">CRITICAL</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>9.8</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-003</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>acceptable</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> The NFS server exports the entire root filesystem (/) to all hosts (*) with no access restrictions. Any host on the network can mount the entire filesystem and read sensitive files including /etc/passwd. Combined with the root shell, /etc/shadow with password hashes was also extracted.</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>showmount -e 192.168.0.140:\nExport list for 192.168.0.140:\n/ *\n\nAfter mounting:\nmount -t nfs 192.168.0.140:/ /tmp/nfs_mount -o nolock\n\n/etc/passwd readable:\nroot:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\nbin:x:2:2:bin:/bin:/bin/sh\n\n/etc/shadow (obtained via root bind shell):\nroot:$1$/avpfBJ1$x0z8w5UF9Iv./DR9E9Lid.:14747:0:99999:7:::</pre>
+                    </div>
+                </div>
+
+                
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Restrict NFS exports to specific hosts and subnets. Never export the root filesystem. Use NFSv4 with Kerberos authentication.</p>
+                </div>
+            </div>
+            
+
+            <div class="finding critical">
+                <div class="finding-header">
+                    <h3>MySQL Root Account Without Password</h3>
+                    <span class="severity-badge critical">CRITICAL</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>9.8</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-004</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>insufficient</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> MySQL 5.0.51a allows remote root login with no password. The root account has full administrative access to all databases. Remote connections are accepted from any host (root@%). Database user credentials and sensitive data can be extracted.</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>mysql -h 192.168.0.140 -u root -e &#x27;SELECT user, host FROM mysql.user&#x27;:\n\nuser\thost\ndebian-sys-maint\t\nguest\t%\nroot\t%\n\nSELECT @@version:\n5.0.51a-3ubuntu5\n\nSELECT @@hostname:\nmetasploitable</pre>
+                    </div>
+                </div>
+
+                
+            <div class="evidence-warning">
+                <strong>Evidence Quality Warning:</strong> Include output showing successful exploitation
+            </div>
+            
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Set a strong password for the MySQL root account. Remove remote root access. Restrict MySQL to localhost or specific trusted IPs via bind-address and GRANT statements.</p>
+                </div>
+            </div>
+            
+
+            <div class="finding high">
+                <div class="finding-header">
+                    <h3>PostgreSQL Default Credentials (postgres:postgres)</h3>
+                    <span class="severity-badge high">HIGH</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>8.6</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-005</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>insufficient</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> PostgreSQL 8.3.1 accepts remote connections with default credentials (postgres:postgres). The postgres superuser has full database access including the ability to read password hashes from pg_shadow.</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>PGPASSWORD=postgres psql -h 192.168.0.140 -U postgres:\n\nSELECT version():\nPostgreSQL 8.3.1 on i486-pc-linux-gnu, compiled by GCC cc (GCC) 4.2.3 (Ubuntu 4.2.3-2ubuntu4)\n\nSELECT current_user:\npostgres\n\nSELECT usename, passwd FROM pg_shadow:\npostgres | md53175bce1d3201d16594cebf9d7eb3f9d</pre>
+                    </div>
+                </div>
+
+                
+            <div class="evidence-warning">
+                <strong>Evidence Quality Warning:</strong> Include output showing successful exploitation
+            </div>
+            
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Change the default postgres password immediately. Restrict remote access via pg_hba.conf. Disable trust authentication.</p>
+                </div>
+            </div>
+            
+
+            <div class="finding high">
+                <div class="finding-header">
+                    <h3>SMBv1 Enabled with Signing Disabled</h3>
+                    <span class="severity-badge high">HIGH</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>7.5</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-006</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>insufficient</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> SMBv1 protocol is enabled and SMB signing is not required. SMBv1 is vulnerable to multiple critical exploits (EternalBlue, etc.). Without SMB signing, the server is vulnerable to relay attacks. Additionally, null session enumeration revealed 35 system users and the hostname &#x27;METASPLOITABLE&#x27;.</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>SMB Configuration Analysis:\n- SMBv1 protocol is enabled (critical)\n- SMB signing is not required (high)\n\nSMB Null Session Enumeration:\n- Domain: localdomain\n- OS: METASPLOITABLE\n- Users enumerated (35): root, msfadmin, user, service, postgres, mysql, tomcat55, distccd, proftpd, ftp, www-data, sshd, telnetd, backup, daemon, sys, bin, mail, games, nobody, proxy, syslog, news, lp, man, uucp, gnats, libuuid, dhcp, klog, postfix, irc, list, sync, bind</pre>
+                    </div>
+                </div>
+
+                
+            <div class="evidence-warning">
+                <strong>Evidence Quality Warning:</strong> Include output showing successful exploitation
+            </div>
+            
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Disable SMBv1 protocol. Enable and require SMB signing. Restrict null session access. Upgrade Samba to a current, supported version.</p>
+                </div>
+            </div>
+            
+
+            <div class="finding medium">
+                <div class="finding-header">
+                    <h3>Anonymous FTP Access Enabled</h3>
+                    <span class="severity-badge medium">MEDIUM</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>5.3</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-007</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>acceptable</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> The FTP server (vsftpd 2.3.4) allows anonymous login. While anonymous access alone is medium severity, combined with the vsftpd backdoor this represents a significant attack surface.</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>FTP anonymous login test:\nCredentials anonymous@192.168.0.140:ftp: VALID (access: user)\nSuccessfully authenticated to FTP with anonymous:anonymous</pre>
+                    </div>
+                </div>
+
+                
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Disable anonymous FTP access unless explicitly required. If needed, ensure the anonymous root directory has restricted permissions.</p>
+                </div>
+            </div>
+            
+
+            <div class="finding medium">
+                <div class="finding-header">
+                    <h3>Web Server Information Disclosure (phpinfo, phpMyAdmin, Directory Indexing)</h3>
+                    <span class="severity-badge medium">MEDIUM</span>
+                </div>
+
+                <div class="finding-details">
+                    <div class="detail">
+                        <label>CVSS Score</label>
+                        <span>5.3</span>
+                    </div>
+                    <div class="detail">
+                        <label>Finding ID</label>
+                        <span>FINDING-008</span>
+                    </div>
+                    <div class="detail">
+                        <label>Evidence Quality</label>
+                        <span>weak</span>
+                    </div>
+                </div>
+
+                <p><strong>Description:</strong> Apache 2.2.8 with PHP 5.2.4 exposes sensitive information through multiple vectors: phpinfo.php reveals full system configuration, phpMyAdmin is publicly accessible, directory indexing is enabled on /doc/, /test/, /icons/, and HTTP TRACE method is active (XST risk).</p>
+
+                <p><strong>Affected Hosts:</strong></p>
+                <div class="host-list">
+                    <span class="host-tag">192.168.0.140</span>
+                </div>
+
+                <div class="evidence">
+                    <h4 class="collapsible">Evidence</h4>
+                    <div class="content">
+                        <pre>Web Enumeration Results:\n\nTechnologies: Apache/2.2.8 (Ubuntu) DAV/2, PHP/5.2.4-2ubuntu5.10\n\nExposed endpoints:\n- /phpinfo.php - Full PHP configuration disclosure\n- /phpMyAdmin/ - Database management interface (public)\n- /dav - WebDAV enabled\n- /doc/ - Directory indexing (may expose /usr/doc)\n- /test/ - Directory indexing\n- /server-status - Apache status page\n\nMissing security headers: X-Frame-Options, X-XSS-Protection, X-Content-Type-Options, Strict-Transport-Security, Content-Security-Policy\n\nHTTP TRACE method active (XST vulnerability)</pre>
+                    </div>
+                </div>
+
+                
+            <div class="evidence-warning">
+                <strong>Evidence Quality Warning:</strong> Include output showing successful exploitation
+            </div>
+            
+
+                <div class="remediation">
+                    <h4>Remediation</h4>
+                    <p>Remove phpinfo.php and restrict phpMyAdmin access. Disable directory indexing with &#x27;Options -Indexes&#x27;. Disable TRACE method. Add security headers.</p>
+                </div>
+            </div>
+            
+        </section>
+
+        <section id="hosts">
+            <h2>Discovered Hosts</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Hostname</th>
+                        <th>OS</th>
+                        <th>Open Ports</th>
+                        <th>Findings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td>192.168.0.140</td>
+                <td>-</td>
+                <td>-</td>
+                <td>21, 22, 23, 25, 53, 80, 111, 139, 445, 512 (+6 more)</td>
+                <td>8</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </section>
+
+        <section id="methodology">
+            <h2>Methodology</h2>
+            <p>This assessment followed the PTES (Penetration Testing Execution Standard) methodology:</p>
+            <ol>
+                <li><strong>Reconnaissance</strong> - Network discovery and host enumeration</li>
+                <li><strong>Enumeration</strong> - Service identification and version detection</li>
+                <li><strong>Vulnerability Assessment</strong> - Automated and manual vulnerability scanning</li>
+                <li><strong>Exploitation</strong> - Safe validation of vulnerabilities</li>
+                <li><strong>Post-Exploitation</strong> - Privilege escalation and lateral movement analysis</li>
+                <li><strong>Reporting</strong> - Documentation and remediation recommendations</li>
+            </ol>
+            <h4>Tools Used</h4>
+            <div class="host-list">
+                <span class="host-tag">nmap</span>
+            </div>
+        </section>
+
+        <section id="token-usage">
+<h2>AI Token Usage &amp; Cost</h2>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Total Input Tokens</td><td>22</td></tr>
+<tr><td>Total Output Tokens</td><td>13,131</td></tr>
+<tr><td>Cache Read Tokens</td><td>874,887</td></tr>
+<tr><td>Cache Creation Tokens</td><td>35,139</td></tr>
+<tr><td>Total API Duration</td><td>3.6 minutes</td></tr>
+<tr><td>Total Turns</td><td>50</td></tr>
+<tr><td>Total Cost (USD)</td><td>$0.9854</td></tr>
+</table>
+</section>
+
+        <footer>
+            <p>Generated by <a href="https://github.com/anthropics/claude-code">NTREE</a> (Neura Tactical Red-Team Exploitation Engine)</p>
+            <p>Report generated: 2026-03-01T18:02:28.678182</p>
+        </footer>
+    </div>
+
+    <script>
+        // Collapsible sections
+        document.querySelectorAll('.collapsible').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                content.classList.toggle('show');
+            });
+        });
+    </script>
+</body>
+</html>

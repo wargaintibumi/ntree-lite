@@ -1,0 +1,142 @@
+# ==============================================================================
+# NTREE RULES OF ENGAGEMENT - INTERNAL NETWORK PENETRATION TEST
+# ==============================================================================
+#
+# Template for internal network security assessments.
+# Assumes tester has network access similar to an employee/insider.
+#
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# ASSESSMENT DETAILS
+# ------------------------------------------------------------------------------
+
+ASSESSMENT_NAME: Internal Network Penetration Test
+CLIENT_NAME: [CLIENT_NAME]
+START_DATE: [START_DATE]
+END_DATE: [END_DATE]
+
+# ------------------------------------------------------------------------------
+# TESTING WINDOW
+# ------------------------------------------------------------------------------
+
+# Internal tests often run during business hours
+TESTING_WINDOW: 8AM-6PM local time weekdays
+# TESTING_WINDOW: anytime
+
+# ------------------------------------------------------------------------------
+# ALLOWED ACTIVITIES
+# ------------------------------------------------------------------------------
+
+# Network scanning and enumeration
+ALLOW_SCANNING: true
+
+# Vulnerability testing (safe checks)
+ALLOW_VULN_TESTING: true
+
+# Credential/password testing (default creds, password spraying)
+ALLOW_CREDENTIAL_TESTING: true
+
+# Exploitation attempts (with approval)
+ALLOW_EXPLOITATION: true
+
+# Post-exploitation activities (with approval)
+ALLOW_POST_EXPLOITATION: true
+
+# Social engineering
+ALLOW_SOCIAL_ENGINEERING: false
+
+# Physical testing
+ALLOW_PHYSICAL_TESTING: false
+
+# Denial of Service testing
+ALLOW_DOS_TESTING: false
+
+# ------------------------------------------------------------------------------
+# INTERNAL NETWORK SPECIFIC
+# ------------------------------------------------------------------------------
+
+# Active Directory testing
+ALLOW_AD_ENUMERATION: true
+ALLOW_KERBEROASTING: true
+ALLOW_ASREPROASTING: true
+ALLOW_BLOODHOUND: true
+
+# Lateral movement testing
+ALLOW_LATERAL_MOVEMENT: true
+ALLOW_PASS_THE_HASH: true
+ALLOW_PASS_THE_TICKET: true
+
+# Privilege escalation
+ALLOW_PRIVESC_TESTING: true
+
+# ------------------------------------------------------------------------------
+# SCAN INTENSITY
+# ------------------------------------------------------------------------------
+
+# Options: stealth, normal, aggressive
+SCAN_INTENSITY: normal
+
+# Internal networks can often tolerate more aggressive scanning
+NMAP_TIMING: -T4
+
+# ------------------------------------------------------------------------------
+# RATE LIMITING
+# ------------------------------------------------------------------------------
+
+# Maximum login attempts per account
+MAX_LOGIN_ATTEMPTS: 3
+
+# Time window for rate limiting (seconds)
+RATE_LIMIT_WINDOW: 300
+
+# Account lockout threshold (stop before this)
+LOCKOUT_THRESHOLD: 5
+
+# ------------------------------------------------------------------------------
+# EMERGENCY CONTACTS
+# ------------------------------------------------------------------------------
+
+EMERGENCY_CONTACT: [SECURITY_EMAIL]
+EMERGENCY_PHONE: [SECURITY_PHONE]
+ESCALATION_CONTACT: [IT_DIRECTOR_EMAIL]
+
+# ------------------------------------------------------------------------------
+# SPECIAL RESTRICTIONS
+# ------------------------------------------------------------------------------
+
+# Critical systems - test with extra caution
+SENSITIVE_SYSTEMS: domain controllers, backup servers, financial systems
+
+# Systems to avoid entirely
+DO_NOT_TEST: production database servers, SCADA/ICS systems
+
+# Prohibited actions
+PROHIBITED: data exfiltration, malware deployment, ransomware simulation, permanent changes
+
+# Actions requiring explicit approval
+REQUIRES_APPROVAL: exploitation, credential extraction, lateral movement, AD attacks
+
+# ------------------------------------------------------------------------------
+# REPORTING REQUIREMENTS
+# ------------------------------------------------------------------------------
+
+REPORT_FORMATS: executive, technical, comprehensive
+NOTIFY_CRITICAL: immediate
+CRITICAL_CONTACT: [SECURITY_EMAIL]
+
+# Attack path documentation required
+DOCUMENT_ATTACK_PATHS: true
+
+# ------------------------------------------------------------------------------
+# AUTHORIZATION STATEMENT
+# ------------------------------------------------------------------------------
+#
+# This internal network penetration test is authorized by [AUTHORIZED_PERSON]
+# on behalf of [CLIENT_NAME]. The tester has permission to perform security
+# testing on internal network resources within the defined scope.
+#
+# Authorization Reference: [CONTRACT/PO NUMBER]
+# Signed Date: [DATE]
+#
+# ==============================================================================

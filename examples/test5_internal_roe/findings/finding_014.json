@@ -1,0 +1,33 @@
+{
+  "finding_id": "finding_014",
+  "title": "SSH Weak Ciphers and Key Exchange Algorithms",
+  "severity": "medium",
+  "description": "OpenSSH 4.7p1 on the target supports weak cryptographic algorithms including RC4 (arcfour) ciphers and diffie-hellman-group1-sha1 key exchange. These are considered cryptographically weak and susceptible to various attacks. The SSH version itself (4.7p1) is severely outdated with multiple known CVEs.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "SSH configuration analysis via MCP:\\n- Weak cipher: arcfour/RC4 enabled (severity: high)\\n- Weak KEX: diffie-hellman-group1-sha1 enabled (severity: medium)\\n- SSH version: OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)\\n- Host keys: 1024-bit DSA, 2048-bit RSA",
+  "cvss_score": 5.3,
+  "remediation": "Upgrade OpenSSH to a current supported version. Disable weak ciphers (arcfour, DES, RC4) and weak KEX algorithms (diffie-hellman-group1-sha1) in sshd_config. Use only AES-GCM or ChaCha20-Poly1305 ciphers. Use curve25519-sha256 or diffie-hellman-group16-sha512 for key exchange.",
+  "references": [
+    "CWE-327"
+  ],
+  "exploitable": false,
+  "exploitation_status": "NEEDS_VERIFICATION",
+  "discovered_at": "2026-03-01T18:22:41.365045",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "weak",
+    "score": 10,
+    "issues": [
+      "No proof of exploitation found"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction",
+      "Show successful connection or authentication",
+      "Include session output or file access proof"
+    ],
+    "has_exploitation_proof": false
+  }
+}

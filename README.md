@@ -158,6 +158,22 @@ Templates included: `roe_example.txt`, `roe_ctf_lab.txt`, `roe_internal_network.
 
 RoE flags like `ALLOW_EXPLOITATION`, `ALLOW_CREDENTIAL_TESTING`, and `REQUIRES_APPROVAL` are enforced at the tool level and reflected in the final report with color-coded badges.
 
+### RoE in Action — Real Pentest Comparison
+
+The [`examples/`](examples/) directory contains results from two real pentests against the same Metasploitable 2 VM — same target, same MCP tools, **different RoE templates**:
+
+| | CTF Lab RoE | Internal Network RoE |
+|---|---|---|
+| **Findings** | 8 | 14 |
+| **Turns** | 50 | 66 |
+| **Cost** | $0.99 | $1.32 |
+| **Agent behavior** | Exploitation-focused — get root, move on | Audit-focused — document every risk |
+| **Unique findings** | _(none)_ | Telnet cleartext, R-services, SSH weak ciphers, SMB null sessions |
+
+The CTF RoE (`SCAN_INTENSITY: aggressive`, `RATE_LIMITING: disabled`, `REQUIRES_APPROVAL: none`) made the agent hunt for quick wins. The Internal Network RoE (`MAX_LOGIN_ATTEMPTS: 3`, `REQUIRES_APPROVAL: exploitation`, `PROHIBITED: data exfiltration`) made it spend more time on enumeration and document configuration weaknesses that matter in corporate environments.
+
+**RoE doesn't just restrict — it shapes strategy.** See [`examples/README.md`](examples/README.md) for the full breakdown.
+
 ## Scope File Syntax
 
 ```

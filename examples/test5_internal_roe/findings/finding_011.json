@@ -1,0 +1,27 @@
+{
+  "finding_id": "finding_011",
+  "title": "R-Services Exposed (rexec/rlogin/rsh - Ports 512-514)",
+  "severity": "critical",
+  "description": "Legacy Berkeley R-services are running with trust relationships allowing unauthenticated root access. RSH on port 514 provides immediate root shell access without any password. This allows complete system compromise.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Exploitation command:\\n$ rsh -l root 192.168.0.140 'id && whoami && hostname'\\n\\nOutput:\\nuid=0(root) gid=0(root) groups=0(root)\\nroot\\nmetasploitable\\n\\nRoot-level command execution confirmed via rsh with no authentication required. The .rhosts trust configuration allows any host to execute commands as root.",
+  "cvss_score": 10.0,
+  "remediation": "Disable all R-services (rexecd, rlogind, rsh) immediately. Remove .rhosts and hosts.equiv trust files. Use SSH with key-based authentication for remote administration.",
+  "references": [
+    "CWE-287",
+    "CWE-319"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:22:15.797386",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "acceptable",
+    "score": 25,
+    "issues": [],
+    "suggestions": [],
+    "has_exploitation_proof": true
+  }
+}

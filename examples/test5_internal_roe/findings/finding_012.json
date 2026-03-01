@@ -1,0 +1,37 @@
+{
+  "finding_id": "finding_012",
+  "title": "PostgreSQL Default Credentials (postgres:postgres)",
+  "severity": "high",
+  "description": "PostgreSQL 8.3.1 is accessible remotely with default credentials (postgres:postgres). The postgres superuser has full administrative privileges. Database enumeration reveals 3 databases and at least one user table. This enables complete database compromise.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Exploitation commands and output:\\n$ psql \\\"host=192.168.0.140 user=postgres password=postgres sslmode=disable\\\" -c \\\"SELECT version();\\\" -c \\\"SELECT datname FROM pg_database;\\\" -c \\\"\\\\dt\\\"\\n\\nversion: PostgreSQL 8.3.1 on i486-pc-linux-gnu, compiled by GCC cc (GCC) 4.2.3 (Ubuntu 4.2.3-2ubuntu4)\\n\\nDatabases:\\n  template1\\n  template0\\n  postgres\\n\\nTables in postgres DB:\\n Schema | Name  | Type  | Owner\\n public | edott | table | postgres\\n\\nFull superuser access confirmed. Can read/write all databases, enumerate schemas, and access all stored data.",
+  "cvss_score": 8.6,
+  "remediation": "Change the default PostgreSQL password immediately. Restrict remote access via pg_hba.conf. Bind to localhost if remote access is not needed. Audit all database contents for sensitive data.",
+  "references": [
+    "CWE-521",
+    "CWE-306"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:22:23.259301",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "weak",
+    "score": 10,
+    "issues": [
+      "No proof of exploitation found",
+      "HIGH severity finding should have stronger evidence",
+      "Exploitation proof required for high/critical findings"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction",
+      "For high findings, demonstrate actual impact",
+      "Actually exploit the vulnerability and capture output",
+      "For SQLi: Show extracted data or UNION-based output"
+    ],
+    "has_exploitation_proof": false
+  }
+}

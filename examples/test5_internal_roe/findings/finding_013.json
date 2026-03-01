@@ -1,0 +1,31 @@
+{
+  "finding_id": "finding_013",
+  "title": "SMBv1 Enabled with Null Session Access and SMB Signing Disabled",
+  "severity": "high",
+  "description": "Samba 3.0.20-Debian has SMBv1 enabled, SMB signing not required, and allows anonymous/null session access. Null sessions expose 3 file shares (tmp, opt, print$) and 35 user accounts. SMBv1 is vulnerable to multiple critical exploits and lack of signing enables NTLM relay attacks.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Exploitation:\\n$ smbclient -L //192.168.0.140 -N\\n\\nAnonymous login successful\\n\\nSharename       Type      Comment\\n---------       ----      -------\\nprint$          Disk      Printer Drivers\\ntmp             Disk      oh noes!\\nopt             Disk\\nIPC$            IPC       IPC Service (metasploitable server (Samba 3.0.20-Debian))\\nADMIN$          IPC       IPC Service (metasploitable server (Samba 3.0.20-Debian))\\n\\nWorkgroup: WORKGROUP, Master: SMBSHARE\\n\\nNull Session User Enumeration (35 accounts): root, msfadmin, user, service, postgres, mysql, www-data, distccd, ftp, etc.\\n\\nConfiguration: SMBv1 enabled (CRITICAL), SMB signing not required (HIGH)",
+  "cvss_score": 7.5,
+  "remediation": "Disable SMBv1. Enable and require SMB signing. Disable null session access. Restrict share access with proper ACLs. Upgrade Samba to a current supported version.",
+  "references": [
+    "CVE-2017-0144",
+    "CWE-311",
+    "CWE-200"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:22:30.918475",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "good",
+    "score": 60,
+    "issues": [],
+    "suggestions": [
+      "Show successful connection or authentication",
+      "Include session output or file access proof"
+    ],
+    "has_exploitation_proof": true
+  }
+}

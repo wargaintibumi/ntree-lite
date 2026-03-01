@@ -1,0 +1,37 @@
+{
+  "finding_id": "finding_007",
+  "title": "SMBv1 Enabled and SMB Signing Not Required",
+  "severity": "high",
+  "description": "Samba 3.0.20-Debian has SMBv1 enabled and SMB signing is not required. SMBv1 is vulnerable to multiple critical exploits (EternalBlue, etc.) and lack of SMB signing enables NTLM relay attacks. 35 user accounts were enumerated via null session including root, msfadmin, user, service, postgres, and other service accounts.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "SMB Configuration Analysis:\\n- SMBv1 protocol is enabled (CRITICAL)\\n- SMB signing is not required (HIGH)\\n- Samba version: 3.0.20-Debian\\n- Domain: localdomain (WORKGROUP)\\n- OS: METASPLOITABLE\\n\\nNull Session User Enumeration (35 accounts):\\ngames, nobody, bind, proxy, syslog, user, www-data, root, news, postgres, bin, mail, distccd, proftpd, dhcp, daemon, sshd, man, lp, mysql, gnats, libuuid, backup, msfadmin, telnetd, sys, klog, postfix, service, list, irc, ftp, tomcat55, sync, uucp",
+  "cvss_score": 7.5,
+  "remediation": "Disable SMBv1 protocol. Enable and require SMB signing on all SMB connections. Upgrade Samba to a current supported version. Disable null session enumeration. Restrict SMB access to authorized hosts.",
+  "references": [
+    "CVE-2017-0144",
+    "CWE-311"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:21:32.925624",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "insufficient",
+    "score": 0,
+    "issues": [
+      "No proof of exploitation found",
+      "HIGH severity finding should have stronger evidence",
+      "Exploitation proof required for high/critical findings"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction",
+      "For high findings, demonstrate actual impact",
+      "Actually exploit the vulnerability and capture output",
+      "Show successful connection or authentication"
+    ],
+    "has_exploitation_proof": false
+  }
+}

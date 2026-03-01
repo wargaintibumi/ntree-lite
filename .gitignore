@@ -45,12 +45,17 @@ NTREE_system_prompt*.txt
 NTREE_CLAUDE_CODE_PROMPT.txt
 monitor_log.txt
 
+# Example pentest results (included in repo)
+!examples/
+!examples/**
+
 # Documentation (non-core)
 # Keep only README.md, exclude all other markdown
 *.md
 !README.md
 !ntree-mcp-servers/README.md
 !ntree-autonomous/README.md
+!examples/README.md
 
 # IDE and editor files
 .vscode/

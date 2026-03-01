@@ -1,0 +1,37 @@
+{
+  "finding_id": "finding_006",
+  "title": "SMBv1 Enabled with Signing Disabled",
+  "severity": "high",
+  "description": "SMBv1 protocol is enabled and SMB signing is not required. SMBv1 is vulnerable to multiple critical exploits (EternalBlue, etc.). Without SMB signing, the server is vulnerable to relay attacks. Additionally, null session enumeration revealed 35 system users and the hostname 'METASPLOITABLE'.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "SMB Configuration Analysis:\\n- SMBv1 protocol is enabled (critical)\\n- SMB signing is not required (high)\\n\\nSMB Null Session Enumeration:\\n- Domain: localdomain\\n- OS: METASPLOITABLE\\n- Users enumerated (35): root, msfadmin, user, service, postgres, mysql, tomcat55, distccd, proftpd, ftp, www-data, sshd, telnetd, backup, daemon, sys, bin, mail, games, nobody, proxy, syslog, news, lp, man, uucp, gnats, libuuid, dhcp, klog, postfix, irc, list, sync, bind",
+  "cvss_score": 7.5,
+  "remediation": "Disable SMBv1 protocol. Enable and require SMB signing. Restrict null session access. Upgrade Samba to a current, supported version.",
+  "references": [
+    "CVE-2017-0144",
+    "CWE-311"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:01:42.386850",
+  "assessment_id": "test4",
+  "evidence_validation": {
+    "quality": "insufficient",
+    "score": 0,
+    "issues": [
+      "No proof of exploitation found",
+      "HIGH severity finding should have stronger evidence",
+      "Exploitation proof required for high/critical findings"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction",
+      "For high findings, demonstrate actual impact",
+      "Actually exploit the vulnerability and capture output",
+      "Show successful connection or authentication"
+    ],
+    "has_exploitation_proof": false
+  }
+}

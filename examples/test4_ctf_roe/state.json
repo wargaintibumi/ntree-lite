@@ -1,0 +1,176 @@
+{
+  "assessment_id": "test4",
+  "title": "test4",
+  "created": "2026-03-01T17:52:50.192946",
+  "updated": "2026-03-01T18:02:28.159813",
+  "phase": "COMPLETE",
+  "scope_file": "~/ntree/prescans/prescan_20260301_175158/live_targets.txt",
+  "scope_targets": [
+    "192.168.0.140"
+  ],
+  "scope_exclusions": [],
+  "roe_file": "~/ntree/templates/roe_ctf_lab.txt",
+  "roe_summary": "# ==============================================================================\n# NTREE RULES OF ENGAGEMENT - CTF / LAB ENVIRONMENT\n# ==============================================================================\n#\n# Template for CTF challenges, training labs, and isolated test environments.\n# Minimal restrictions - designed for learning and practice.\n#\n# Suitable for: HackTheBox, TryHackMe, VulnHub, home labs, training environments\n#\n# ==============================================================================\n\n# ------------------------------------------------------------------------------\n# ASSESSMENT DETAILS\n# ------------------------------------------------------------------------------\n\nASSESSMENT_NAME: CTF/Lab Practice Session\nCLIENT_NAME: Self / Training\nSTART_DATE: [DATE]\nEND_DATE: [DATE]\nASSESSMENT_TYPE: ctf_lab\n\n# ------------------------------------------------------------------------------\n# TESTING WINDOW\n# ------------------------------------------------------------------------------\n\n# No restrictions for lab environments\nTESTING_WINDOW: anytime\n\n# ------------------------------------------------------------------------------\n# ALLOWED ACTIVITIES - ALL ENABLED\n# ------------------------------------------------------------------------------\n\n# Network scanning and enumeration\nALLOW_SCANNING: true\n\n# Vulnerability testing\nALLOW_VULN_TESTING: true\n\n# Credential/password testing\nALLOW_CREDENTIAL_TESTING: true\n\n# Exploitation attempts\nALLOW_EXPLOITATION: true\n\n# Post-exploitation activities\nALLOW_POST_EXPLOITATION: true\n\n# Social engineering (N/A for labs)\nALLOW_SOCIAL_ENGINEERING: false\n\n# Physical testing (N/A for labs)\nALLOW_PHYSICAL_TESTING: false\n\n# Denial of Service testing (safe in isolated labs)\nALLOW_DOS_TESTING: true\n\n# ------------------------------------------------------------------------------\n# LAB-SPECIFIC PERMISSIONS\n# ------------------------------------------------------------------------------\n\n# Full exploitation allowed\nALLOW_FULL_EXPLOITATION: true\n\n# Privilege escalation\nALLOW_PRIVESC: true\n\n# Persistence (for practice)\nALLOW_PERSISTENCE: true\n\n# Data access\nALLOW_DATA_ACCESS: true\n\n# Password cracking\nALLOW_PASSWORD_CRACKING: true\nALLOW_HASHCAT: true\nALLOW_JOHN: true\n\n# Brute force\nALLOW_BRUTE_FORCE: true\n\n# Metasploit usage\nALLOW_METASPLOIT: true\nALLOW_METERPRETER: true\n\n# Custom exploits\nALLOW_CUSTOM_EXPLOITS: true\n\n# ------------------------------------------------------------------------------\n# SCAN INTENSITY\n# ------------------------------------------------------------------------------\n\n# Aggressive scanning for faster results\nSCAN_INTENSITY: aggressive\nNMAP_TIMING: -T4\n\n# No rate limiting needed\nRATE_LIMITING: disabled\n\n# ------------------------------------------------------------------------------\n# RATE LIMITING - DISABLED\n# ------------------------------------------------------------------------------\n\n# No limits for lab environments\nMAX_LOGIN_ATTEMPTS: unlimited\nRATE_LIMIT_WINDOW: 0\n\n# ------------------------------------------------------------------------------\n# SPECIAL NOTES\n# ------------------------------------------------------------------------------\n\n# This is an isolated lab environment\nENVIRONMENT_TYPE: isolated_lab\n\n# No real systems at risk\nPRODUCTION_SYSTEMS: none\n\n# No restrictions on techniques\nPROHIBITED: none\n\n# No approval required\nREQUIRES_APPROVAL: none\n\n# ------------------------------------------------------------------------------\n# REPORTING\n# ------------------------------------------------------------------------------\n\n# Optional reporting for labs\nREPORT_FORMATS: comprehensive\nAUTO_REPORT: true\n\n# ------------------------------------------------------------------------------\n# VERIFICATION\n# ------------------------------------------------------------------------------\n#\n# Before using this ROE, verify:\n# [ ] Target is an authorized CTF/lab environment\n# [ ] Network is isolated from production systems\n# [ ] No real user data is present\n# [ ] You have permission to test (platform ToS, lab owner)\n#\n# ==============================================================================",
+  "roe_flags": {
+    "ASSESSMENT_NAME": "CTF/Lab Practice Session",
+    "CLIENT_NAME": "Self / Training",
+    "START_DATE": "[DATE]",
+    "END_DATE": "[DATE]",
+    "ASSESSMENT_TYPE": "ctf_lab",
+    "TESTING_WINDOW": "anytime",
+    "ALLOW_SCANNING": "true",
+    "ALLOW_VULN_TESTING": "true",
+    "ALLOW_CREDENTIAL_TESTING": "true",
+    "ALLOW_EXPLOITATION": "true",
+    "ALLOW_POST_EXPLOITATION": "true",
+    "ALLOW_SOCIAL_ENGINEERING": "false",
+    "ALLOW_PHYSICAL_TESTING": "false",
+    "ALLOW_DOS_TESTING": "true",
+    "ALLOW_FULL_EXPLOITATION": "true",
+    "ALLOW_PRIVESC": "true",
+    "ALLOW_PERSISTENCE": "true",
+    "ALLOW_DATA_ACCESS": "true",
+    "ALLOW_PASSWORD_CRACKING": "true",
+    "ALLOW_HASHCAT": "true",
+    "ALLOW_JOHN": "true",
+    "ALLOW_BRUTE_FORCE": "true",
+    "ALLOW_METASPLOIT": "true",
+    "ALLOW_METERPRETER": "true",
+    "ALLOW_CUSTOM_EXPLOITS": "true",
+    "SCAN_INTENSITY": "aggressive",
+    "NMAP_TIMING": "-T4",
+    "RATE_LIMITING": "disabled",
+    "MAX_LOGIN_ATTEMPTS": "unlimited",
+    "RATE_LIMIT_WINDOW": "0",
+    "ENVIRONMENT_TYPE": "isolated_lab",
+    "PRODUCTION_SYSTEMS": "none",
+    "PROHIBITED": "none",
+    "REQUIRES_APPROVAL": "none",
+    "REPORT_FORMATS": "comprehensive",
+    "AUTO_REPORT": "true"
+  },
+  "prescan_hosts": {
+    "192.168.0.140": {
+      "ports": [
+        21,
+        22,
+        23,
+        25,
+        53,
+        80,
+        111,
+        139,
+        445,
+        512,
+        513,
+        514,
+        2049,
+        3306,
+        5432,
+        5900
+      ],
+      "services": {
+        "21": "ftp(vsftpd 2.3.4)",
+        "22": "ssh(OpenSSH 4.7p1 Debian 8ubuntu1)",
+        "23": "telnet(Linux telnetd)",
+        "25": "smtp(Postfix smtpd)",
+        "53": "domain(ISC BIND 9.4.2)",
+        "80": "http(Apache httpd 2.2.8)",
+        "111": "rpcbind",
+        "139": "netbios-ssn(Samba smbd 3.X - 4.X)",
+        "445": "netbios-ssn(Samba smbd 3.X - 4.X)",
+        "512": "exec(netkit-rsh rexecd)",
+        "513": "login(OpenBSD or Solaris rlogind)",
+        "514": "tcpwrapped",
+        "2049": "nfs",
+        "3306": "mysql(MySQL 5.0.51a-3ubuntu5)",
+        "5432": "postgresql(PostgreSQL DB 8.3.0 - 8.3.7)",
+        "5900": "vnc(VNC)"
+      }
+    }
+  },
+  "assessment_dir": "~/ntree/assessments/test4",
+  "discovered_assets": {
+    "hosts": [
+      "192.168.0.140"
+    ],
+    "services": [
+      "192.168.0.140:21/ftp",
+      "192.168.0.140:22/ssh",
+      "192.168.0.140:23/telnet",
+      "192.168.0.140:25/smtp",
+      "192.168.0.140:53/dns",
+      "192.168.0.140:80/http",
+      "192.168.0.140:111/rpcbind",
+      "192.168.0.140:139/smb",
+      "192.168.0.140:445/smb",
+      "192.168.0.140:512/rexec",
+      "192.168.0.140:513/rlogin",
+      "192.168.0.140:514/rsh",
+      "192.168.0.140:2049/nfs",
+      "192.168.0.140:3306/mysql",
+      "192.168.0.140:5432/postgresql",
+      "192.168.0.140:5900/vnc"
+    ],
+    "credentials": [
+      "root:bindshell:root",
+      "root:vsftpd_backdoor:root",
+      "root:mysql:root",
+      "postgres:postgresql:superuser",
+      "anonymous:ftp:user"
+    ]
+  },
+  "findings": [
+    {
+      "id": "finding_001",
+      "title": "Root Shell via Ingreslock Bind Shell (Port 1524)",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_002",
+      "title": "vsftpd 2.3.4 Backdoor Command Execution (CVE-2011-2523)",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_003",
+      "title": "NFS Root Filesystem Export to All Hosts",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_004",
+      "title": "MySQL Root Account Without Password",
+      "severity": "critical"
+    },
+    {
+      "id": "finding_005",
+      "title": "PostgreSQL Default Credentials (postgres:postgres)",
+      "severity": "high"
+    },
+    {
+      "id": "finding_006",
+      "title": "SMBv1 Enabled with Signing Disabled",
+      "severity": "high"
+    },
+    {
+      "id": "finding_007",
+      "title": "Anonymous FTP Access Enabled",
+      "severity": "medium"
+    },
+    {
+      "id": "finding_008",
+      "title": "Web Server Information Disclosure (phpinfo, phpMyAdmin, Directory Indexing)",
+      "severity": "medium"
+    }
+  ],
+  "action_history": [],
+  "completed": "2026-03-01T18:02:28.159824",
+  "token_usage": {
+    "total_input_tokens": 22,
+    "total_output_tokens": 13131,
+    "total_cache_read_tokens": 874887,
+    "total_cache_creation_tokens": 35139,
+    "total_cost_usd": 0.9854472499999999,
+    "total_api_duration_ms": 217205.0,
+    "total_turns": 50
+  }
+}

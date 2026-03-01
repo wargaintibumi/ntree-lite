@@ -1,0 +1,6 @@
+# NTREE Prescan Results
+# Generated: 2026-03-01T18:11:50.880883
+# Source scope: scope_test5.txt
+# Total hosts: 1
+#
+192.168.0.140  # ports: 21,22,23,25,53,80,111,139,445,512,513,514,2049,3306,5432,5900 | ftp(vsftpd 2.3.4),ssh(OpenSSH 4.7p1 Debian 8ubuntu1),telnet(Linux telnetd),smtp(Postfix smtpd),domain(ISC BIND 9.4.2),http(Apache httpd 2.2.8),rpcbind,netbios-ssn(Samba smbd 3.X - 4.X),netbios-ssn(Samba smbd 3.X - 4.X),exec(netkit-rsh rexecd),login(OpenBSD or Solaris rlogind),tcpwrapped,nfs,mysql(MySQL 5.0.51a-3ubuntu5),postgresql(PostgreSQL DB 8.3.0 - 8.3.7),vnc(VNC)

@@ -1,0 +1,36 @@
+{
+  "finding_id": "finding_010",
+  "title": "R-Services Exposed (rexec/rlogin/rsh - Ports 512-514)",
+  "severity": "high",
+  "description": "Legacy Berkeley R-services (rexecd on port 512, rlogind on port 513, rsh on port 514) are running. These services use weak trust-based authentication (.rhosts files) and transmit credentials in cleartext. They can be exploited for unauthorized remote command execution if trust relationships exist.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Service enumeration confirmed:\\n- Port 512/tcp: exec (netkit-rsh rexecd) - open\\n- Port 513/tcp: login (OpenBSD or Solaris rlogind) - open\\n- Port 514/tcp: tcpwrapped - open\\n\\nThese services rely on .rhosts trust files and IP-based authentication, which are trivially spoofable. All communication is unencrypted.",
+  "cvss_score": 7.5,
+  "remediation": "Disable all R-services (rexecd, rlogind, rsh). Use SSH for all remote administration. Remove any .rhosts and hosts.equiv trust files.",
+  "references": [
+    "CWE-319",
+    "CWE-287"
+  ],
+  "exploitable": false,
+  "exploitation_status": "NEEDS_VERIFICATION",
+  "discovered_at": "2026-03-01T18:21:55.286437",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "insufficient",
+    "score": 0,
+    "issues": [
+      "No proof of exploitation found",
+      "HIGH severity finding should have stronger evidence",
+      "Exploitation proof required for high/critical findings"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction",
+      "For high findings, demonstrate actual impact",
+      "Actually exploit the vulnerability and capture output"
+    ],
+    "has_exploitation_proof": false
+  }
+}

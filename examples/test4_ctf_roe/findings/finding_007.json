@@ -1,0 +1,26 @@
+{
+  "finding_id": "finding_007",
+  "title": "Anonymous FTP Access Enabled",
+  "severity": "medium",
+  "description": "The FTP server (vsftpd 2.3.4) allows anonymous login. While anonymous access alone is medium severity, combined with the vsftpd backdoor this represents a significant attack surface.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "FTP anonymous login test:\\nCredentials anonymous@192.168.0.140:ftp: VALID (access: user)\\nSuccessfully authenticated to FTP with anonymous:anonymous",
+  "cvss_score": 5.3,
+  "remediation": "Disable anonymous FTP access unless explicitly required. If needed, ensure the anonymous root directory has restricted permissions.",
+  "references": [
+    "CWE-284"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:01:45.846161",
+  "assessment_id": "test4",
+  "evidence_validation": {
+    "quality": "acceptable",
+    "score": 25,
+    "issues": [],
+    "suggestions": [],
+    "has_exploitation_proof": true
+  }
+}

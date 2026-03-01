@@ -1,0 +1,37 @@
+{
+  "finding_id": "finding_004",
+  "title": "MySQL Root Account Without Password",
+  "severity": "critical",
+  "description": "MySQL 5.0.51a allows remote root login with no password. The root account has full administrative access to all databases. Remote connections are accepted from any host (root@%). Database user credentials and sensitive data can be extracted.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "mysql -h 192.168.0.140 -u root -e 'SELECT user, host FROM mysql.user':\\n\\nuser\\thost\\ndebian-sys-maint\\t\\nguest\\t%\\nroot\\t%\\n\\nSELECT @@version:\\n5.0.51a-3ubuntu5\\n\\nSELECT @@hostname:\\nmetasploitable",
+  "cvss_score": 9.8,
+  "remediation": "Set a strong password for the MySQL root account. Remove remote root access. Restrict MySQL to localhost or specific trusted IPs via bind-address and GRANT statements.",
+  "references": [
+    "CWE-306",
+    "CWE-798"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:01:25.071827",
+  "assessment_id": "test4",
+  "evidence_validation": {
+    "quality": "insufficient",
+    "score": 0,
+    "issues": [
+      "No proof of exploitation found",
+      "CRITICAL severity finding should have stronger evidence",
+      "Exploitation proof required for high/critical findings"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction",
+      "For critical findings, demonstrate actual impact",
+      "Actually exploit the vulnerability and capture output",
+      "For SQLi: Show extracted data or UNION-based output"
+    ],
+    "has_exploitation_proof": false
+  }
+}

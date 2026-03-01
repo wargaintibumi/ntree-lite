@@ -1,0 +1,32 @@
+{
+  "finding_id": "finding_009",
+  "title": "phpinfo() Information Disclosure",
+  "severity": "medium",
+  "description": "The phpinfo.php file is publicly accessible at http://192.168.0.140/phpinfo.php, exposing detailed server configuration including PHP version (5.2.4-2ubuntu5.10), Apache version (2.2.8), OS details, document root (/var/www/), and all PHP configuration variables. phpMyAdmin is also accessible without authentication.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "$ curl -s http://192.168.0.140/phpinfo.php | grep key info:\\n\\nPHP Version 5.2.4-2ubuntu5.10\\nSystem: Linux metasploitable 2.6.24-16-server #1 SMP Thu Apr 10 13:58:00 UTC 2008 i686\\nSERVER_SOFTWARE: Apache/2.2.8 (Ubuntu) DAV/2\\nDOCUMENT_ROOT: /var/www/\\n\\nAdditional web findings:\\n- /phpMyAdmin/ directory accessible\\n- /dav (WebDAV enabled)\\n- /twiki accessible\\n- Directory indexing on /doc/, /test/, /icons/\\n- HTTP TRACE method active (XST risk)\\n- All security headers missing (X-Frame-Options, CSP, HSTS, etc.)",
+  "cvss_score": 5.3,
+  "remediation": "Remove phpinfo.php and any test/debug files from production. Disable directory indexing. Add security headers (X-Frame-Options, CSP, HSTS, X-Content-Type-Options). Restrict access to phpMyAdmin. Disable HTTP TRACE method. Disable WebDAV if not needed.",
+  "references": [
+    "CWE-200",
+    "CWE-552"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:21:48.550391",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "weak",
+    "score": 10,
+    "issues": [
+      "No proof of exploitation found"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction"
+    ],
+    "has_exploitation_proof": false
+  }
+}

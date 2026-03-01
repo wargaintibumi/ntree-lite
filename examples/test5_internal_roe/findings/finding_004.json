@@ -1,0 +1,30 @@
+{
+  "finding_id": "finding_004",
+  "title": "MySQL Root Account Without Password",
+  "severity": "critical",
+  "description": "MySQL 5.0.51a is accessible remotely with the root account requiring no password. The root user has full administrative privileges over all databases. A guest account also exists with remote access (host: %). This allows complete database compromise including data theft, modification, and potential OS command execution.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "Exploitation command:\\n$ mysql -h 192.168.0.140 -u root --skip-password --skip-ssl -e \\\"SELECT user,host FROM mysql.user; SELECT version();\\\"\\n\\nOutput:\\nuser             host\\ndebian-sys-maint \\nguest            %\\nroot             %\\n\\nversion()\\n5.0.51a-3ubuntu5\\n\\nRoot access confirmed with no password. Guest account also available remotely.",
+  "cvss_score": 9.8,
+  "remediation": "Set a strong password for the MySQL root account. Remove the guest account. Restrict remote access by binding MySQL to localhost or specific trusted IPs. Remove unnecessary user accounts.",
+  "references": [
+    "CWE-521",
+    "CWE-306"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:21:01.335525",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "acceptable",
+    "score": 25,
+    "issues": [],
+    "suggestions": [
+      "For SQLi: Show extracted data or UNION-based output",
+      "Include sqlmap output showing database/table extraction"
+    ],
+    "has_exploitation_proof": true
+  }
+}

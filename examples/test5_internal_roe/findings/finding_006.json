@@ -1,0 +1,31 @@
+{
+  "finding_id": "finding_006",
+  "title": "Anonymous FTP Access Enabled",
+  "severity": "medium",
+  "description": "The FTP service (vsftpd 2.3.4) allows anonymous login without credentials. While the anonymous user has limited access, this enables reconnaissance and potential data access to publicly shared files.",
+  "affected_hosts": [
+    "192.168.0.140"
+  ],
+  "evidence": "FTP anonymous login confirmed:\\n- FTP server status: Connected to 192.168.0.105, Logged in as ftp\\n- NSE script output: Anonymous FTP login allowed (FTP code 230)\\n- MCP credential check: anonymous@192.168.0.140:ftp: VALID (access: user)",
+  "cvss_score": 5.3,
+  "remediation": "Disable anonymous FTP access. Use SFTP instead of FTP for file transfers. If anonymous access is required, ensure it is read-only with minimal file exposure.",
+  "references": [
+    "CWE-284"
+  ],
+  "exploitable": true,
+  "exploitation_status": "CONFIRMED",
+  "discovered_at": "2026-03-01T18:21:22.576618",
+  "assessment_id": "test5",
+  "evidence_validation": {
+    "quality": "insufficient",
+    "score": 0,
+    "issues": [
+      "No proof of exploitation found"
+    ],
+    "suggestions": [
+      "Include output showing successful exploitation",
+      "Add command output demonstrating access or data extraction"
+    ],
+    "has_exploitation_proof": false
+  }
+}
